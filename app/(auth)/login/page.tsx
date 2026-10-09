@@ -1,8 +1,67 @@
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
+"use client";
+import { login } from "@/services/auth.api";
+import { useAuthStore } from "@/stores/auth.store";
 import Link from "next/link"
+import { toast } from "sonner";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+
+const loginSchema = z.object({
+  username: z
+    .string()
+    .min(1, 'Tên đăng nhập không được để trống'),
+  email: z
+    .string(),
+    // .min(1, 'Email không được để trống')
+    // .email('Email không hợp lệ'),
+
+  password: z
+    .string()
+    // .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
+    // .regex(
+    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    //   'Mật khẩu phải bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt'
+    // )
+});
+
+type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const { setAccessToken } = useAuthStore();
+
+    const router = useRouter();
+    // làm việc với useForm
+    const {
+      register,
+      handleSubmit,
+      formState: { errors }
+    } = useForm<LoginSchema>({
+      resolver: zodResolver(loginSchema),
+      defaultValues: {
+        username: "",
+        email: "",
+        password: "",
+      },
+    });
+
+  const handleLogin = async (data: LoginSchema) => {
+    console.log("data", data);
+    try {
+      const res = await login({ username: data.username, email: data.email, password: data.password });
+
+      if (res.status === 200) {
+        setAccessToken(res.data.access_token);
+        toast.success("Đăng nhập thành công");
+        router.push("/");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Đăng nhập thất bại");
+    }
+  };
+
   return (
       <div className="flex min-h-svh bg-background text-foreground">
         <section className="relative hidden overflow-hidden bg-primary lg:flex lg:w-1/2 lg:items-center lg:justify-center">
@@ -58,18 +117,41 @@ export default function LoginPage() {
               <div className="grow border-t border-border" />
             </div>
 
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit(handleLogin)}>
               <div className="space-y-2">
                 <label htmlFor="email" className="ml-1 block text-sm font-semibold text-primary">
                   Địa chỉ Email
                 </label>
                 <input
                   id="email"
-                  name="email"
                   type="email"
+                  {...register("email")}
                   placeholder="ten@vidu.vn"
                   className="w-full bg-(--surface-container-low) px-5 py-4 placeholder:text-muted-foreground/70 focus-visible:ring-2 focus-visible:ring-secondary/40"
                 />
+                {errors.email && (
+                  <p className='text-destructive text-sm'>
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="username" className="ml-1 block text-sm font-semibold text-primary">
+                  Tên đăng nhập
+                </label>
+                <input
+                  id="username"
+                  type="text"
+                  {...register("username")}
+                  placeholder="Nguyen Van A"
+                  className="w-full bg-(--surface-container-low) px-5 py-4 placeholder:text-muted-foreground/70 focus-visible:ring-2 focus-visible:ring-secondary/40"
+                />
+                {/* todo: error message */}
+                {errors.username && (
+                  <p className='text-destructive text-sm'>
+                    {errors.username.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between px-1">
@@ -82,11 +164,17 @@ export default function LoginPage() {
                 </div>
                 <input
                   id="password"
-                  name="password"
+                  {...register("password")}
                   type="password"
                   placeholder="••••••••"
                   className="w-full bg-(--surface-container-low) px-5 py-4 placeholder:text-muted-foreground/70 focus-visible:ring-2 focus-visible:ring-secondary/40"
                 />
+                {/* todo: error message */}
+                {errors.password && (
+                  <p className='text-destructive text-sm'>
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
               <label className="ml-1 flex items-center">
                 <input type="checkbox" className="h-4 w-4 rounded border-border bg-(--surface-container-low) text-secondary" />
