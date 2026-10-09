@@ -6,7 +6,7 @@ export default function AuctionDetailPage() {
   return (
     <div className="min-h-svh bg-background text-foreground">
       <SiteHeader />
-      <main className="mx-auto max-w-screen-2xl px-6 pb-16 pt-28 md:pt-10">
+      <main className="va-container va-page-main">
         <nav className="mb-8 flex items-center gap-2 text-sm text-muted-foreground">
           <Link href="/auction-list" className="transition-colors hover:text-secondary">
             Tài sản
@@ -26,7 +26,7 @@ export default function AuctionDetailPage() {
                 className="aspect-4/3 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 lg:aspect-16/10"
               />
               <div className="absolute left-4 top-4">
-                <span className="bg-secondary px-4 py-1.5 text-xs font-bold text-secondary-foreground">ĐANG DIỄN RA</span>
+                <span className="va-status bg-status-live text-status-live-foreground">ĐANG DIỄN RA</span>
               </div>
             </div>
 
@@ -43,14 +43,14 @@ export default function AuctionDetailPage() {
           </div>
 
           <div className="sticky top-28 lg:col-span-5">
-            <div className="border border-border bg-background p-8">
-              <p className="mb-2 text-sm font-bold uppercase tracking-widest text-secondary">Lô số: #VN-10248</p>
-              <h1 className="text-2xl font-black text-primary">Tượng Phật Đồng Thế Kỷ 18 - Di sản nhà Lê</h1>
+            <div className="va-card p-6 sm:p-8">
+              <p className="mb-2 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-secondary">Lô số: #VN-10248</p>
+              <h1 className="font-heading text-3xl font-medium leading-[1.08] tracking-[-0.04em] text-primary sm:text-4xl">Tượng Phật Đồng Thế Kỷ 18 - Di sản nhà Lê</h1>
 
               <div className="mt-6 space-y-6">
                 <div className="bg-(--surface-container-low) p-5">
                   <p className="text-sm text-muted-foreground">Giá cao nhất hiện tại</p>
-                  <p className="mt-1 text-3xl font-black text-secondary">250.000.000 ₫</p>
+                  <p className="mt-1 font-mono text-2xl font-semibold text-secondary sm:text-3xl">250.000.000 ₫</p>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="border-l-2 border-border pl-4">
@@ -65,8 +65,8 @@ export default function AuctionDetailPage() {
               </div>
 
               <div className="mt-8 space-y-3">
-                <button className="w-full bg-secondary py-4 text-lg font-black text-secondary-foreground">ĐĂNG KÝ THAM GIA</button>
-                <button className="w-full border-2 border-primary py-3.5 font-bold text-primary transition-colors hover:bg-primary hover:text-primary-foreground">
+                <button className="va-button-secondary w-full text-base uppercase tracking-wide">Đăng ký tham gia</button>
+                <button className="va-button-outline w-full text-base">
                   ĐẶT GIÁ TỐI ĐA
                 </button>
               </div>
@@ -131,7 +131,7 @@ export default function AuctionDetailPage() {
                       <p className="font-bold text-primary">{name}</p>
                       <p className="text-xs text-muted-foreground">{time}</p>
                     </div>
-                    <p className={top ? "font-black text-secondary" : "font-bold"}>{price}</p>
+                    <p className={top ? "font-mono font-semibold text-secondary" : "font-mono font-medium"}>{price}</p>
                   </div>
                 ))}
               </div>

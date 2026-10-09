@@ -1,7 +1,16 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PUBLIC_ROUTES = ["/login", "/register", "/"];
+const PUBLIC_ROUTES = [
+  "/",
+  "/login",
+  "/regsiter",
+  "/about",
+  "/auction-list",
+  "/auction-detail",
+  "/auction-realtime",
+  "/contact",
+];
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("access_token")?.value;
@@ -16,5 +25,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|favicon.ico).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|assets/|favicon.ico).*)"],
 };

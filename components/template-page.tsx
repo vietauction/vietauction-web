@@ -10,7 +10,7 @@ export function TemplatePage({ title, subtitle, description }: TemplatePageProps
   return (
     <main className="min-h-svh bg-background text-foreground">
       <section className="relative overflow-hidden px-6 py-16">
-        <div className="mx-auto max-w-screen-2xl">
+        <div className="mx-auto max-w-[1320px]">
           <div className="relative min-h-[340px] overflow-hidden bg-primary p-8 md:p-12">
             <Image
               src="/assets/image01.jpg"
@@ -22,13 +22,13 @@ export function TemplatePage({ title, subtitle, description }: TemplatePageProps
             <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/85 to-transparent" />
             <div className="relative z-10 max-w-3xl">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-(--secondary-container)">{subtitle}</p>
-              <h1 className="mt-4 font-heading text-4xl font-black tracking-tight text-white md:text-5xl">{title}</h1>
+              <h1 className="mt-4 font-heading text-4xl font-medium tracking-[-0.045em] text-white md:text-5xl">{title}</h1>
               <p className="mt-5 max-w-2xl text-base leading-7 text-(--on-primary-container)">{description}</p>
             </div>
           </div>
         </div>
       </section>
-      <section className="mx-auto max-w-screen-2xl px-6 pb-20">
+      <section className="mx-auto max-w-[1320px] px-6 pb-20">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <article className="bg-(--surface-container-low) p-6">
             <h2 className="font-heading text-xl font-bold text-primary">Thông tin nổi bật</h2>

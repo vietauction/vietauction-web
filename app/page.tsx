@@ -149,7 +149,7 @@ export default function HomePage() {
                 <Link className="dgs-auction-card__image" href="/auction-list">
                   <img src={auction.image} alt={auction.title} />
                   <span
-                    className={`dgs-auction-card__status${auction.status === "Đang diễn ra" ? "is-live" : ""}`}
+                    className={`dgs-auction-card__status${auction.status === "Đang diễn ra" ? " is-live" : ""}`}
                   >
                     {auction.status}
                   </span>
