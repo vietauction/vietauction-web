@@ -1,29 +1,54 @@
 import Link from "next/link"
 
-export function SiteFooter() {
+type SiteFooterProps = {
+  variant?: "default" | "landing"
+}
+
+export function SiteFooter({ variant = "default" }: SiteFooterProps) {
+  const isLanding = variant === "landing"
+
   return (
-    <footer id="footer" className="mt-20 bg-[color:var(--surface-container-low)]">
-      <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-8 px-6 py-12 md:grid-cols-3">
+    <footer id="footer" className={`dgs-footer${isLanding ? "" : " mt-20"}`}>
+      <div className="dgs-footer__grid">
         <div className="space-y-4">
-          <p className="font-heading text-base font-bold text-[color:var(--primary)]">VIETAUCTION</p>
-          <p className="max-w-xs text-sm leading-relaxed text-[color:var(--muted-foreground)]">
-            Cổng thông tin đấu giá tài sản chuyên nghiệp, tập trung vào bất động sản và kiến trúc giá trị cao.
+          <p className="dgs-footer__brand">
+            VietAuction<span>.</span>
+          </p>
+          <p className="dgs-footer__description">
+            Cổng thông tin đấu giá tài sản minh bạch, giúp người mua và người sở
+            hữu gặp nhau ở đúng giá trị.
           </p>
         </div>
         <div className="space-y-3">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[color:var(--secondary)]">Thông tin hữu ích</p>
-          <nav className="flex flex-col gap-2 text-sm text-[color:var(--muted-foreground)]">
-            <Link href="/auction-list">Quy định đấu giá</Link>
-            <Link href="/profile">Hồ sơ cá nhân</Link>
-            <Link href="/auction-realtime">Hướng dẫn tham gia</Link>
+          <p className="dgs-footer__eyebrow">Khám phá</p>
+          <nav aria-label="Điều hướng chân trang" className="dgs-footer__links">
+            <Link href="/auctions">Tài sản đang đấu giá</Link>
+            <Link href="/auctions?status=live">Phiên đang diễn ra</Link>
+            <Link href="/about">Về VietAuction</Link>
           </nav>
         </div>
-        <div className="space-y-3 text-sm text-[color:var(--muted-foreground)]">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[color:var(--secondary)]">Liên hệ</p>
-          <p>Địa chỉ: Hà Nội, Việt Nam</p>
-          <p>Hotline: 1900 xxxx</p>
-          <p>Email: contact@vietauction.com.vn</p>
+        <div className="space-y-3">
+          <p className="dgs-footer__eyebrow">Pháp lý</p>
+          <nav aria-label="Thông tin pháp lý" className="dgs-footer__links">
+            <Link href="/terms">Điều khoản dịch vụ</Link>
+            <Link href="/privacy">Chính sách bảo mật</Link>
+            <Link href="/auction-rules">Quy chế đấu giá</Link>
+            <Link href="/seller-rules">Quy định người bán</Link>
+          </nav>
         </div>
+        <div className="dgs-footer__contact">
+          <p className="dgs-footer__eyebrow">Liên hệ</p>
+          <p>Đội ngũ hỗ trợ sẵn sàng tư vấn quy trình và hồ sơ tài sản.</p>
+          <Link
+            href="/contact"
+            className="inline-flex min-h-11 w-fit items-center border-b border-[color:var(--dgs-gold)] text-[#f5f1e9] transition-colors hover:text-[color:var(--dgs-gold)]"
+          >
+            Liên hệ đội ngũ hỗ trợ
+          </Link>
+        </div>
+      </div>
+      <div className="dgs-footer__bottom">
+        © 2026 VietAuction. Minh bạch tạo nên giá trị.
       </div>
     </footer>
   )
