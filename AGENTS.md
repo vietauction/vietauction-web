@@ -40,6 +40,19 @@ Keep components focused. Extract a component when it is reused, has meaningful i
 - Keep Vietnamese customer-facing copy clear, concise, and consistent with the auction domain.
 - Do not replace real content with placeholder text, fake controls, or non-functional primary actions.
 
+## Typography contract
+
+This contract is mandatory for every existing and future screen. Do not introduce or substitute another font family unless the user explicitly changes the design system.
+
+- VietAuction wordmark and all headings from `h1` through `h6`: self-hosted **Gilroy Bold Việt hoá**, weight `700`.
+- Body copy, navigation, buttons, controls, forms, helper text, metadata, countdowns, lot codes, dates, times, counters, and all other non-price numeric data: self-hosted **Gilroy Medium Việt hoá**, weight `500`.
+- Every monetary amount—including current price, starting price, bid step, deposit, fees, transaction values, proposed bids, and bid-history amounts—uses self-hosted **Gilroy SemiBold Việt hoá**, weight `600`, and the shared `.font-price` class.
+- Use only the local font files registered through `next/font/local` in `app/layout.tsx` and the shared typography tokens/classes in `app/globals.css`. Do not add remote fonts or page-specific `font-family` declarations.
+- Classify typography by content meaning, not visual size: prices use `.font-price`; countdowns, dates, lot codes, and other non-price numbers remain Medium `500` and may use `.font-numeric`.
+- Before handing off UI work, verify that every rendered monetary value—including every `formatMoney(...)` output—has `.font-price`, no non-price number uses `.font-price`, and all `h1`–`h6` elements resolve to weight `700`.
+
+Implementation details and sizing rules live in [INSTRUCTIONS.md](./INSTRUCTIONS.md#3-typography) and [FRONTEND_UI_SPEC.md](./FRONTEND_UI_SPEC.md#162-typography).
+
 ## UI/UX requirements
 
 - Follow every rule in `INSTRUCTIONS.md`.
@@ -70,6 +83,18 @@ npm run build
 ```
 
 Also visually inspect affected routes at desktop and mobile widths when the task changes UI. Treat new errors as blockers. Report retained warnings, and do not fix unrelated warnings unless requested.
+
+## Progress tracking
+
+`PROGRESS.md` is the mandatory source of truth for implementation progress.
+
+- Update `PROGRESS.md` before handing off every task that changes code, documentation, assets, configuration, or an agreed implementation decision.
+- Record the date, task, status, material changes, validation performed, remaining limitations, and the next recommended action.
+- Update the milestone table when a task changes the status or scope of a delivery phase.
+- Append task entries chronologically. Do not rewrite or remove earlier entries unless correcting an objective factual error.
+- Never mark a task or milestone complete until its required validation has passed.
+- When a task is committed, include its `PROGRESS.md` update in the same commit.
+- For analysis-only conversations that do not change the repository or implementation plan, a progress entry is not required.
 
 ## Scope and safety
 
