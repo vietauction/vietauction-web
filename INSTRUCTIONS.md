@@ -18,12 +18,26 @@ This file is the mandatory design baseline for every existing and future VietAuc
 
 ## 3. Typography
 
-- Use local `DgsDisplay` for body copy, headings, controls, and long-form content across the entire product.
-- Use local `DgsMono` only for concise navigation labels, eyebrows, metadata, lot numbers, prices, dates, counters, and auction state labels.
+| Content role | Required font and weight | Required implementation |
+| --- | --- | --- |
+| VietAuction wordmark and H1–H6 | `Gilroy Bold Việt hoá` (`700`) | Use semantic heading elements; the shared wordmark may use `.va-logo`. |
+| Body, navigation, buttons, controls, forms, helper text, and metadata | `Gilroy Medium Việt hoá` (`500`) | Inherit the global `font-sans`; do not declare a page-specific font family. |
+| Countdown, lot code, date, time, counter, and other non-price numeric data | `Gilroy Medium Việt hoá` (`500`) | Use `.font-numeric` when tabular-number alignment is useful; never use `.font-price`. |
+| Any monetary amount | `Gilroy SemiBold Việt hoá` (`600`) | Always apply `.font-price`; it may be combined with `.font-numeric`. |
+
+Typography implementation rules:
+
+- Classify text by meaning, not by its displayed size. A small price is still SemiBold `600`; a large countdown is still Medium `500`.
+- `.font-price` is mandatory for every monetary value, including current price, starting price, bid step, deposit, registration fee, transaction amount, proposed bid, and bid-history amount.
+- Every rendered output of `formatMoney(...)` must have `.font-price` on the output element or its dedicated price wrapper.
+- Do not apply `.font-price` to countdowns, dates, times, lot IDs, quantities, percentages, or counters unless the value itself is money.
+- Do not add Google Fonts, other remote fonts, fallback brand fonts, or raw page/component-level `font-family` declarations.
+- Keep the local Medium (`500`), SemiBold (`600`), and Bold (`700`) files registered in `app/layout.tsx`; keep shared typography behavior in `app/globals.css`.
+- When adding or changing price UI, review every affected `formatMoney(...)` call before handoff.
 - Use sentence case for normal UI. Use uppercase only for concise eyebrow labels or metadata.
 - Keep body copy at least 16px on mobile. Avoid text below 12px; 11–12px is reserved for non-essential metadata.
 - Maintain readable line height: 1.5–1.65 for body text, 1.0–1.15 for display headings.
-- Use moderate display weights (420–650) by default. Reserve 700+ for short emphasis; avoid heavy black headings as the default product voice.
+- Do not synthesize or substitute typography weights: use local Medium (`500`), SemiBold (`600`), and Bold (`700`) font files through `next/font/local`.
 
 ## 4. Layout and spacing
 

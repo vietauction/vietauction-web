@@ -1,203 +1,160 @@
-"use client";
-import { login } from "@/services/auth.api";
-import { useAuthStore } from "@/stores/auth.store";
+"use client"
+
+import Image from "next/image"
 import Link from "next/link"
-import { toast } from "sonner";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-
-const loginSchema = z.object({
-  username: z
-    .string()
-    .min(1, 'Tên đăng nhập không được để trống'),
-  email: z
-    .string(),
-    // .min(1, 'Email không được để trống')
-    // .email('Email không hợp lệ'),
-
-  password: z
-    .string()
-    // .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
-    // .regex(
-    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-    //   'Mật khẩu phải bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt'
-    // )
-});
-
-type LoginSchema = z.infer<typeof loginSchema>;
+import { useRouter } from "next/navigation"
+import { FormEvent, useState } from "react"
+import { Eye, EyeOff } from "lucide-react"
 
 export default function LoginPage() {
-  const { setAccessToken } = useAuthStore();
+  const router = useRouter()
+  const [identifier, setIdentifier] = useState("")
+  const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState("")
 
-    const router = useRouter();
-    // làm việc với useForm
-    const {
-      register,
-      handleSubmit,
-      formState: { errors }
-    } = useForm<LoginSchema>({
-      resolver: zodResolver(loginSchema),
-      defaultValues: {
-        username: "",
-        email: "",
-        password: "",
-      },
-    });
-
-  const handleLogin = async (data: LoginSchema) => {
-    console.log("data", data);
-    try {
-      const res = await login({ username: data.username, email: data.email, password: data.password });
-
-      if (res.status === 200) {
-        setAccessToken(res.data.access_token);
-        toast.success("Đăng nhập thành công");
-        router.push("/");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Đăng nhập thất bại");
+  function submit(event: FormEvent) {
+    event.preventDefault()
+    setError("")
+    if (!identifier.trim() || password.length < 6) {
+      setError(
+        "Vui lòng nhập email hoặc tên đăng nhập và mật khẩu tối thiểu 6 ký tự."
+      )
+      return
     }
-  };
+    setSubmitting(true)
+    window.setTimeout(() => {
+      window.localStorage.setItem("vietauction-demo-session", "member")
+      router.push("/account/profile")
+    }, 700)
+  }
 
   return (
-      <div className="flex min-h-svh bg-background text-foreground">
-        <section className="relative hidden overflow-hidden bg-[#181510] lg:flex lg:w-1/2 lg:items-center lg:justify-center">
-          <Image
-            src="/assets/pages/login.png"
-            alt="Nhà sưu tầm quan sát tác phẩm sơn mài trong không gian trưng bày"
-            fill
-            priority
-            sizes="50vw"
-            className="absolute inset-0 h-full w-full object-cover object-[62%_center]"
-          />
-          <div className="absolute inset-0 bg-linear-to-r from-[#181510]/95 via-[#181510]/65 to-[#181510]/25" />
-          <div className="relative z-10 max-w-xl p-16">
-            <p className="font-mono text-xs tracking-[0.13em] text-[#cba765]">NỀN TẢNG ĐẤU GIÁ TÀI SẢN</p>
-            <h1 className="mt-5 font-heading text-5xl font-medium leading-[0.98] tracking-[-0.055em] text-[#f5f1e9]">
-              Giá trị được nhìn nhận.<br />
-              Minh bạch được đặt lên đầu.
-            </h1>
-            <p className="mt-8 text-lg leading-relaxed text-[#d3ccc1]">
-              Khám phá và sở hữu những kiệt tác di sản, nghệ thuật Việt Nam qua hệ thống đấu giá trực tuyến uy tín và
-              chuyên nghiệp hàng đầu.
-            </p>
-            <div className="mt-8 flex items-center gap-4">
-              <div className="h-px w-12 bg-[#cba765]" />
-              <span className="text-xs font-semibold uppercase tracking-widest text-[#cba765]">
-                VietAuction
+    <main className="grid min-h-svh bg-background text-foreground lg:grid-cols-2">
+      <section className="relative hidden min-h-svh overflow-hidden bg-[#181510] lg:block">
+        <Image
+          src="/assets/pages/login-v2.png"
+          alt="Nhà sưu tầm quan sát tác phẩm sơn mài trong không gian trưng bày"
+          fill
+          priority
+          sizes="50vw"
+          className="object-cover object-[62%_center]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#181510]/95 via-[#181510]/55 to-[#181510]/15" />
+        <div className="relative z-10 flex h-full max-w-2xl flex-col justify-center p-14 xl:p-20">
+          <Link
+            href="/"
+            className="va-logo absolute top-10 left-14 text-2xl tracking-[-0.08em] text-white"
+          >
+            VietAuction<span className="text-[#cba765]">.</span>
+          </Link>
+          <p className="font-sans text-xs font-bold tracking-[0.13em] text-[#cba765]">
+            NỀN TẢNG ĐẤU GIÁ TÀI SẢN
+          </p>
+          <h1 className="mt-5 text-5xl leading-[0.98] font-bold tracking-[-0.055em] text-[#f5f1e9] xl:text-6xl">
+            Giá trị được nhìn nhận.
+            <br />
+            Minh bạch được đặt lên đầu.
+          </h1>
+          <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#d3ccc1]">
+            Theo dõi phiên đấu giá, quản lý hồ sơ và tiếp cận thông tin tài sản
+            trong một trải nghiệm nhất quán.
+          </p>
+        </div>
+      </section>
+
+      <section className="flex items-center justify-center p-6 sm:p-10 lg:p-14">
+        <div className="w-full max-w-md">
+          <Link
+            href="/"
+            className="mb-10 inline-flex min-h-11 items-center text-sm font-semibold text-secondary hover:text-primary"
+          >
+            ← Về trang chủ
+          </Link>
+          <p className="va-eyebrow">Tài khoản thành viên</p>
+          <h2 className="va-heading-1 mt-3">Chào mừng trở lại</h2>
+          <p className="mt-3 text-muted-foreground">
+            Đăng nhập vào trạng thái mô phỏng để xem khu vực tài khoản.
+          </p>
+
+          <form className="mt-9 space-y-6" onSubmit={submit} noValidate>
+            <label className="block space-y-2">
+              <span className="text-sm font-semibold">
+                Email hoặc tên đăng nhập
               </span>
-            </div>
-          </div>
-        </section>
+              <input
+                value={identifier}
+                onChange={(event) => setIdentifier(event.target.value)}
+                className="va-field"
+                autoComplete="username"
+                placeholder="ten@vidu.vn"
+              />
+            </label>
+            <label className="block space-y-2">
+              <span className="flex items-center justify-between">
+                <span className="text-sm font-semibold">Mật khẩu</span>
+                <Link
+                  href="/forgot-password"
+                  className="text-sm text-secondary hover:text-primary"
+                >
+                  Quên mật khẩu?
+                </Link>
+              </span>
+              <span className="relative block">
+                <input
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  className="va-field pr-12"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  placeholder="Tối thiểu 6 ký tự"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((value) => !value)}
+                  className="absolute top-1/2 right-1 inline-flex size-10 -translate-y-1/2 items-center justify-center text-muted-foreground hover:text-primary"
+                  aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </span>
+            </label>
+            <label className="flex min-h-11 items-center gap-3 text-sm text-muted-foreground">
+              <input type="checkbox" className="size-5 accent-[#7a5b2e]" /> Ghi
+              nhớ đăng nhập trên thiết bị này
+            </label>
+            {error ? (
+              <p
+                role="alert"
+                className="border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive"
+              >
+                {error}
+              </p>
+            ) : null}
+            <button
+              type="submit"
+              disabled={submitting}
+              className="va-button-primary w-full"
+            >
+              {submitting ? "Đang đăng nhập…" : "Đăng nhập"}
+            </button>
+          </form>
 
-        <section className="flex w-full items-center justify-center bg-background p-8 lg:w-1/2">
-          <div className="w-full max-w-md">
-            <Link href="/" className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-primary">
-              <span>←</span>
-              Về trang chủ
+          <p className="mt-8 text-center text-sm text-muted-foreground">
+            Chưa có tài khoản?{" "}
+            <Link
+              href="/register"
+              className="font-semibold text-secondary hover:text-primary"
+            >
+              Tạo tài khoản mới
             </Link>
-
-            <div className="mb-10">
-              <h2 className="font-heading text-3xl font-medium tracking-[-0.04em] text-primary">Chào mừng trở lại</h2>
-              <p className="mt-2 text-muted-foreground">Đăng nhập để tiếp tục hành trình sưu tầm của bạn.</p>
-            </div>
-
-            <div className="mb-8 grid grid-cols-2 gap-4">
-              <button className="flex min-h-12 items-center justify-center gap-3 border border-border bg-(--surface-container-low) px-4 py-3 transition-colors hover:bg-(--surface-container-high)">
-                <span className="text-sm font-semibold text-primary">Google</span>
-              </button>
-              <button className="flex min-h-12 items-center justify-center gap-3 border border-border bg-(--surface-container-low) px-4 py-3 transition-colors hover:bg-(--surface-container-high)">
-                <span className="text-sm font-semibold text-primary">Apple</span>
-              </button>
-            </div>
-
-            <div className="relative flex items-center py-5">
-              <div className="grow border-t border-border" />
-              <span className="mx-4 text-xs font-medium uppercase tracking-widest text-muted-foreground">Hoặc đăng nhập bằng Email</span>
-              <div className="grow border-t border-border" />
-            </div>
-
-            <form className="space-y-6" onSubmit={handleSubmit(handleLogin)}>
-              <div className="space-y-2">
-                <label htmlFor="email" className="ml-1 block text-sm font-semibold text-primary">
-                  Địa chỉ Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  {...register("email")}
-                  placeholder="ten@vidu.vn"
-                  className="va-field px-5 py-4"
-                />
-                {errors.email && (
-                  <p className='text-destructive text-sm'>
-                    {errors.email.message}
-                  </p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="username" className="ml-1 block text-sm font-semibold text-primary">
-                  Tên đăng nhập
-                </label>
-                <input
-                  id="username"
-                  type="text"
-                  {...register("username")}
-                  placeholder="Nguyen Van A"
-                  className="va-field px-5 py-4"
-                />
-                {/* todo: error message */}
-                {errors.username && (
-                  <p className='text-destructive text-sm'>
-                    {errors.username.message}
-                  </p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between px-1">
-                  <label htmlFor="password" className="block text-sm font-semibold text-primary">
-                    Mật khẩu
-                  </label>
-                  <Link href="/contact" className="text-xs font-medium text-secondary hover:opacity-80">
-                    Quên mật khẩu?
-                  </Link>
-                </div>
-                <input
-                  id="password"
-                  {...register("password")}
-                  type="password"
-                  placeholder="••••••••"
-                  className="va-field px-5 py-4"
-                />
-                {/* todo: error message */}
-                {errors.password && (
-                  <p className='text-destructive text-sm'>
-                    {errors.password.message}
-                  </p>
-                )}
-              </div>
-              <label className="ml-1 flex items-center">
-                <input type="checkbox" className="h-4 w-4 rounded border-border bg-(--surface-container-low) text-secondary" />
-                <span className="ml-2 text-sm text-muted-foreground">Ghi nhớ đăng nhập</span>
-              </label>
-
-              <button type="submit" className="va-button-primary w-full text-base">
-                Đăng nhập
-              </button>
-            </form>
-
-            <p className="mt-10 text-center text-sm text-muted-foreground">
-              Chưa có tài khoản thành viên?
-              <Link href="/regsiter" className="ml-1 font-bold text-secondary hover:underline">
-                Tạo tài khoản mới
-              </Link>
-            </p>
-          </div>
-        </section>
-      </div>
+          </p>
+          <p className="mt-6 border-t border-border pt-6 text-center text-xs leading-relaxed text-muted-foreground">
+            Bản hiện tại sử dụng local state, không gửi thông tin đến backend.
+          </p>
+        </div>
+      </section>
+    </main>
   )
 }

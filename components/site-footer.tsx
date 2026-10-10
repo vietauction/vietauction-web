@@ -8,10 +8,7 @@ export function SiteFooter({ variant = "default" }: SiteFooterProps) {
   const isLanding = variant === "landing"
 
   return (
-    <footer
-      id="footer"
-      className={`dgs-footer${isLanding ? "" : " mt-20"}`}
-    >
+    <footer id="footer" className={`dgs-footer${isLanding ? "" : " mt-20"}`}>
       <div className="dgs-footer__grid">
         <div className="space-y-4">
           <p className="dgs-footer__brand">
@@ -23,22 +20,24 @@ export function SiteFooter({ variant = "default" }: SiteFooterProps) {
           </p>
         </div>
         <div className="space-y-3">
-          <p className="dgs-footer__eyebrow">
-            Khám phá
-          </p>
-          <nav
-            aria-label="Điều hướng chân trang"
-            className="dgs-footer__links"
-          >
-            <Link href="/auction-list">Tài sản đang đấu giá</Link>
-            <Link href="/auction-realtime">Theo dõi phiên trực tiếp</Link>
+          <p className="dgs-footer__eyebrow">Khám phá</p>
+          <nav aria-label="Điều hướng chân trang" className="dgs-footer__links">
+            <Link href="/auctions">Tài sản đang đấu giá</Link>
+            <Link href="/auctions?status=live">Phiên đang diễn ra</Link>
             <Link href="/about">Về VietAuction</Link>
           </nav>
         </div>
+        <div className="space-y-3">
+          <p className="dgs-footer__eyebrow">Pháp lý</p>
+          <nav aria-label="Thông tin pháp lý" className="dgs-footer__links">
+            <Link href="/terms">Điều khoản dịch vụ</Link>
+            <Link href="/privacy">Chính sách bảo mật</Link>
+            <Link href="/auction-rules">Quy chế đấu giá</Link>
+            <Link href="/seller-rules">Quy định người bán</Link>
+          </nav>
+        </div>
         <div className="dgs-footer__contact">
-          <p className="dgs-footer__eyebrow">
-            Liên hệ
-          </p>
+          <p className="dgs-footer__eyebrow">Liên hệ</p>
           <p>Đội ngũ hỗ trợ sẵn sàng tư vấn quy trình và hồ sơ tài sản.</p>
           <Link
             href="/contact"

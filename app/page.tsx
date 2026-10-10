@@ -1,35 +1,11 @@
+import Image from "next/image"
 import Link from "next/link"
 import { SiteFooter } from "@/components/site-footer"
-
-const featuredAuctions = [
-  {
-    category: "Nghệ thuật & đồ cổ",
-    title: "Bình gốm sứ cổ triều Lê với họa tiết hoa sen",
-    price: "850.000.000 ₫",
-    status: "Sắp mở",
-    timeLabel: "Bắt đầu sau",
-    time: "05 : 09 : 10",
-    image: "/assets/landing/products/1.jpg",
-  },
-  {
-    category: "Trang sức tuyển chọn",
-    title: "Bộ trang sức kim cương chế tác thủ công",
-    price: "1.250.000.000 ₫",
-    status: "Đang diễn ra",
-    timeLabel: "Kết thúc sau",
-    time: "00 : 45 : 12",
-    image: "/assets/landing/products/4.jpg",
-  },
-  {
-    category: "Tài sản sưu tầm",
-    title: "Đồng hồ cơ phiên bản giới hạn từ Thụy Sĩ",
-    price: "420.000.000 ₫",
-    status: "Sắp mở",
-    timeLabel: "Bắt đầu sau",
-    time: "02 : 14 : 22",
-    image: "/assets/landing/products/5.jpg",
-  },
-]
+import { SiteHeader } from "@/components/site-header"
+import { AuctionCountdown } from "@/components/auction/auction-countdown"
+import { getAuctionStatusLabel } from "@/components/auction/auction-status-badge"
+import { featuredAuctions } from "@/data/mock-auctions"
+import { formatMoney } from "@/lib/format"
 
 const steps = [
   [
@@ -61,32 +37,7 @@ export default function HomePage() {
             <source src="/assets/landing/hero.mp4" type="video/mp4" />
           </video>
           <div className="dgs-hero__veil" aria-hidden="true" />
-          <header className="dgs-nav">
-            <Link
-              className="dgs-brand"
-              href="/"
-              aria-label="VietAuction trang chủ"
-            >
-              VietAuction<span>.</span>
-            </Link>
-            <nav aria-label="Điều hướng chính">
-              <a href="#phien-dau-gia">Phiên đấu giá</a>
-              <a href="#quy-trinh">Quy trình</a>
-              <Link href="/about">Về VietAuction</Link>
-            </nav>
-            <details className="dgs-mobile-nav">
-              <summary>MENU</summary>
-              <nav aria-label="Điều hướng trên thiết bị di động">
-                <a href="#phien-dau-gia">Phiên đấu giá</a>
-                <a href="#quy-trinh">Quy trình</a>
-                <Link href="/about">Về VietAuction</Link>
-                <Link href="/auction-list">Tất cả tài sản</Link>
-              </nav>
-            </details>
-            <Link className="dgs-nav__account" href="/login">
-              Đăng nhập
-            </Link>
-          </header>
+          <SiteHeader variant="overlay" />
           <div className="dgs-hero__content">
             <p className="dgs-eyebrow">NỀN TẢNG ĐẤU GIÁ TÀI SẢN</p>
             <h1>
@@ -101,14 +52,11 @@ export default function HomePage() {
             <div className="dgs-hero__actions">
               <Link
                 className="dgs-button dgs-button--primary"
-                href="/auction-list"
+                href="/auctions?status=live"
               >
                 Khám phá phiên đang diễn ra
               </Link>
-              <Link
-                className="dgs-button dgs-button--ghost"
-                href="/sent-possestion"
-              >
+              <Link className="dgs-button dgs-button--ghost" href="/sell">
                 Gửi tài sản đấu giá
               </Link>
             </div>
@@ -139,33 +87,48 @@ export default function HomePage() {
               <p className="dgs-eyebrow">PHIÊN ĐƯỢC TUYỂN CHỌN</p>
               <h2>Đặt giá cho điều bạn thật sự muốn sở hữu.</h2>
             </div>
-            <Link className="dgs-text-link" href="/auction-list">
+            <Link className="dgs-text-link" href="/auctions">
               Xem tất cả phiên <span>→</span>
             </Link>
           </div>
           <div className="dgs-auction-grid">
-            {featuredAuctions.map((auction) => (
-              <article className="dgs-auction-card" key={auction.title}>
-                <Link className="dgs-auction-card__image" href="/auction-list">
-                  <img src={auction.image} alt={auction.title} />
+            {featuredAuctions.map((auction, index) => (
+              <article className="dgs-auction-card" key={auction.id}>
+                <Link
+                  className="dgs-auction-card__image"
+                  href={`/auctions/${auction.id}`}
+                >
+                  <Image
+                    src={auction.images[0].src}
+                    alt={auction.images[0].alt}
+                    fill
+                    priority={index < 3}
+                    sizes="(min-width: 900px) 33vw, 100vw"
+                  />
                   <span
-                    className={`dgs-auction-card__status${auction.status === "Đang diễn ra" ? " is-live" : ""}`}
+                    className={`dgs-auction-card__status${auction.status === "live" ? "is-live" : ""}`}
                   >
-                    {auction.status}
+                    {getAuctionStatusLabel(auction.status)}
                   </span>
                 </Link>
                 <div className="dgs-auction-card__content">
-                  <p className="dgs-auction-card__label">{auction.category}</p>
+                  <p className="dgs-auction-card__label">
+                    {auction.categoryLabel}
+                  </p>
                   <h3>
-                    <Link href="/auction-list">{auction.title}</Link>
+                    <Link href={`/auctions/${auction.id}`}>
+                      {auction.title}
+                    </Link>
                   </h3>
                   <div className="dgs-auction-card__meta">
                     <span>Giá khởi điểm</span>
-                    <strong>{auction.price}</strong>
+                    <strong className="font-price">
+                      {formatMoney(auction.startPrice)}
+                    </strong>
                   </div>
                   <div className="dgs-auction-card__countdown">
-                    <span>{auction.timeLabel}</span>
-                    <strong>{auction.time}</strong>
+                    <span>Kết thúc sau</span>
+                    <AuctionCountdown endsAt={auction.endsAt} compact />
                   </div>
                 </div>
               </article>
@@ -179,7 +142,7 @@ export default function HomePage() {
             <h2>
               Một hành trình ngắn, rõ ràng và tập trung vào giá trị của tài sản.
             </h2>
-            <Link className="dgs-text-link" href="/auction-list">
+            <Link className="dgs-text-link" href="/auctions">
               Bắt đầu khám phá <span>→</span>
             </Link>
           </div>
@@ -197,48 +160,42 @@ export default function HomePage() {
         <section className="dgs-seller">
           <p className="dgs-eyebrow">DÀNH CHO NGƯỜI SỞ HỮU</p>
           <h2>Đưa tài sản của bạn đến với người trân trọng giá trị của nó.</h2>
-          <Link className="dgs-button dgs-button--dark" href="/sent-possestion">
+          <Link className="dgs-button dgs-button--dark" href="/sell">
             Gửi yêu cầu định giá
           </Link>
         </section>
 
-        <section
-          className="dgs-metrics"
-          aria-label="Các chỉ số của VietAuction"
-        >
+        <section className="dgs-metrics" aria-label="Cam kết minh bạch">
           <p className="dgs-metrics__eyebrow">NỀN TẢNG ĐẤU GIÁ MINH BẠCH</p>
           <div className="dgs-metrics__bar">
             <article className="dgs-metrics__item">
               <div className="dgs-toggle" aria-hidden="true">
                 <span>✓</span>
               </div>
-              <h2>95%</h2>
+              <h2>Hồ sơ rõ ràng</h2>
               <p>
-                người tham gia nhận thấy quy trình đấu giá{" "}
-                <strong>rõ ràng và dễ theo dõi</strong>
+                Thông tin chính, điều kiện tham gia và trạng thái phiên được
+                trình bày tại một nơi.
               </p>
             </article>
             <article className="dgs-metrics__item">
-              <div className="dgs-avatars" aria-hidden="true">
-                <span>VA</span>
-                <span>TD</span>
-                <span>HN</span>
+              <div className="dgs-toggle" aria-hidden="true">
+                <span>✓</span>
               </div>
-              <h2>24/7</h2>
+              <h2>Quy trình nhất quán</h2>
               <p>
-                cập nhật trạng thái phiên và{" "}
-                <strong>hỗ trợ người tham gia</strong> xuyên suốt
+                Đăng ký, theo dõi và đặt giá dùng chung một hệ thống trạng thái
+                dễ hiểu.
               </p>
             </article>
             <article className="dgs-metrics__item">
-              <div className="dgs-avatars dgs-avatars--two" aria-hidden="true">
-                <span>SG</span>
-                <span>DN</span>
+              <div className="dgs-toggle" aria-hidden="true">
+                <span>✓</span>
               </div>
-              <h2>10K+</h2>
+              <h2>Hỗ trợ đúng lúc</h2>
               <p>
-                <strong>lượt quan tâm tài sản</strong> được ghi nhận trên nền
-                tảng
+                Đường dẫn hỗ trợ và nội dung hướng dẫn luôn có mặt ở các bước
+                quan trọng.
               </p>
             </article>
           </div>
