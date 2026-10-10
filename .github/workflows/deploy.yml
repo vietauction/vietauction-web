@@ -19,7 +19,13 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            # 1. Di chuyển tới thư mục chứa project trên VPS (HÃY SỬA ĐƯỜNG DẪN NÀY)
+            # Nạp môi trường để nhận diện lệnh npm và pm2 khi SSH (Non-interactive shell)
+            export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/snap/bin
+            source ~/.bashrc || true
+            source ~/.profile || true
+            if [ -s "$HOME/.nvm/nvm.sh" ]; then source "$HOME/.nvm/nvm.sh"; fi
+            
+            # 1. Di chuyển tới thư mục chứa project trên VPS
             cd vietauction-web/
             
             # 2. Cập nhật code mới nhất
