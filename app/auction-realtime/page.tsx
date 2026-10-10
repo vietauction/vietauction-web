@@ -5,18 +5,18 @@ export default function AuctionRealtimePage() {
   return (
     <div className="min-h-svh bg-background text-foreground">
       <SiteHeader />
-      <main className="mx-auto min-h-screen max-w-screen-2xl px-6 pb-12 pt-28 md:pt-10">
+      <main className="va-container va-page-main min-h-screen">
         <div className="flex flex-col gap-10 lg:grid lg:grid-cols-12">
           <div className="space-y-5 lg:col-span-8">
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm uppercase tracking-widest text-muted-foreground">
+              <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.06em] text-muted-foreground">
                 <span>Trang chủ</span>
                 <span>›</span>
                 <span>Đấu giá trực tiếp</span>
                 <span>›</span>
                 <span className="font-bold text-secondary">Lô #1284</span>
               </div>
-              <h1 className="max-w-3xl text-2xl font-black leading-tight tracking-tight md:text-3xl">
+              <h1 className="max-w-3xl text-3xl font-medium leading-[1.08] tracking-[-0.04em] md:text-4xl">
                 Bộ Đồ Thờ Men Lam Ngọc Họa Tiết Rồng Phượng Triều Nguyễn
               </h1>
             </div>
@@ -28,26 +28,26 @@ export default function AuctionRealtimePage() {
                   alt="Bộ đồ thờ men lam ngọc"
                   className="h-full w-full object-cover"
                 />
-                <div className="absolute left-4 top-4 bg-secondary px-4 py-1.5 text-sm font-bold text-secondary-foreground">TRỰC TIẾP</div>
+                <div className="va-status absolute left-4 top-4 bg-status-live text-status-live-foreground">Trực tiếp</div>
               </div>
 
               <div className="flex flex-col gap-4">
                 <div className="relative flex flex-1 flex-col items-center justify-center overflow-hidden bg-primary p-8 text-center text-primary-foreground">
                   <span className="mb-3 text-xs uppercase tracking-widest text-(--on-primary-container)">Thời gian còn lại</span>
-                  <p className="text-4xl font-black">
+                  <p className="font-mono text-4xl font-semibold">
                     02 : <span className="text-(--secondary-container)">45</span>
                   </p>
                   <p className="mt-2 text-xs uppercase opacity-70">Phút : Giây</p>
                   <div className="mt-5 h-1 w-full overflow-hidden bg-white/10">
                     <div className="h-full w-2/3 bg-(--secondary-container)" />
                   </div>
-                  <p className="mt-4 text-xs font-semibold text-red-200">Sắp kết thúc! Hãy đặt giá ngay.</p>
+                  <p className="mt-4 text-xs font-semibold text-[color:var(--status-live)]">Sắp kết thúc! Hãy đặt giá ngay.</p>
                 </div>
 
                 <div className="flex flex-1 flex-col justify-center bg-(--surface-container-high) p-8">
                   <span className="text-xs uppercase tracking-widest text-muted-foreground">Giá hiện tại</span>
                   <div className="mt-1 flex items-baseline gap-2">
-                    <span className="text-3xl font-black text-primary">125.000.000</span>
+                    <span className="font-mono text-3xl font-semibold text-primary">125.000.000</span>
                     <span className="text-lg font-bold text-primary">₫</span>
                   </div>
                   <p className="mt-3 text-sm italic text-muted-foreground">
@@ -60,16 +60,17 @@ export default function AuctionRealtimePage() {
             <div className="bg-(--surface-container-low) p-5">
               <div className="flex flex-col items-center gap-6 md:flex-row">
                 <div className="w-full flex-1">
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                  <label htmlFor="next-bid-amount" className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground">
                     Số tiền đấu giá tiếp theo (VND)
                   </label>
                   <input
-                    className="w-full bg-(--surface-container-highest) px-4 py-3.5 text-lg font-black text-primary focus-visible:ring-2 focus-visible:ring-secondary/50"
+                    id="next-bid-amount"
+                    className="va-field bg-(--surface-container-highest) font-mono text-lg font-semibold"
                     type="text"
                     defaultValue="130.000.000"
                   />
                 </div>
-                <button className="w-full bg-secondary px-8 py-3.5 text-base font-black text-secondary-foreground md:w-56">
+                <button className="va-button-secondary w-full px-8 text-base md:w-56">
                   ĐẶT GIÁ NGAY
                 </button>
               </div>
@@ -87,7 +88,7 @@ export default function AuctionRealtimePage() {
             </div>
 
             <div className="border-t border-border pt-8">
-              <h3 className="mb-4 text-lg font-black">Chi tiết tài sản</h3>
+              <h3 className="mb-4 text-xl font-medium">Chi tiết tài sản</h3>
               <div className="grid gap-8 text-sm leading-relaxed text-muted-foreground md:grid-cols-2">
                 <p>
                   Sản phẩm là bộ đồ thờ tam sự bằng gốm sứ cao cấp, được chế tác thủ công tại làng nghề truyền thống
@@ -114,7 +115,7 @@ export default function AuctionRealtimePage() {
           <aside className="lg:col-span-4">
             <div className="sticky top-24 flex max-h-[calc(100vh-120px)] h-full flex-col overflow-hidden bg-(--surface-container-low)">
               <div className="bg-primary p-6 text-primary-foreground">
-                <h2 className="text-lg font-black">Lịch sử đấu giá</h2>
+                <h2 className="text-xl font-medium">Lịch sử đấu giá</h2>
                 <p className="mt-1 text-xs text-(--on-primary-container)">Tổng số: 48 lượt trả giá</p>
               </div>
               <div className="flex-1 space-y-3 overflow-y-auto p-6">
@@ -132,9 +133,9 @@ export default function AuctionRealtimePage() {
                     <div className="flex-1">
                       <div className="flex justify-between">
                         <span className={`text-sm ${top ? "font-bold text-foreground" : "font-medium text-muted-foreground"}`}>{name}</span>
-                        <span className="text-[10px] text-muted-foreground">{time}</span>
+                        <span className="font-mono text-xs text-muted-foreground">{time}</span>
                       </div>
-                      <p className={`mt-1 ${top ? "text-lg font-black text-secondary" : "font-bold text-foreground"}`}>{bid} ₫</p>
+                      <p className={`mt-1 font-mono ${top ? "text-lg font-semibold text-secondary" : "font-medium text-foreground"}`}>{bid} ₫</p>
                     </div>
                   </div>
                 ))}

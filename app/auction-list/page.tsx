@@ -75,11 +75,11 @@ export default function AuctionListPage() {
   return (
     <div className="min-h-svh bg-background text-foreground">
       <SiteHeader />
-      <main className="mx-auto flex min-h-screen max-w-screen-2xl gap-10 px-6 pb-16 pt-10">
+      <main className="va-container va-page-main flex min-h-screen gap-10">
         <aside className="hidden w-72 shrink-0 py-4 lg:flex lg:flex-col">
           <div className="sticky top-24 space-y-6 border border-border bg-(--surface-container-low) p-5">
             <div className="border-b border-border pb-4">
-              <h2 className="text-lg font-bold uppercase tracking-widest text-primary">Bộ lọc tìm kiếm</h2>
+              <h2 className="font-mono text-sm font-semibold uppercase tracking-[0.08em] text-primary">Bộ lọc tìm kiếm</h2>
               <p className="mt-2 text-xs text-muted-foreground">Tinh chỉnh tiêu chí để tìm nhanh tài sản phù hợp.</p>
             </div>
 
@@ -148,7 +148,7 @@ export default function AuctionListPage() {
               </div>
             </section>
 
-            <button className="w-full bg-primary py-3.5 text-xs font-bold uppercase tracking-widest text-primary-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground">
+            <button className="va-button-primary w-full font-mono text-xs uppercase tracking-[0.08em]">
               Áp dụng bộ lọc
             </button>
           </div>
@@ -157,11 +157,11 @@ export default function AuctionListPage() {
         <div className="flex-1 space-y-8">
           <header className="flex flex-col justify-between gap-6 pb-3 md:flex-row md:items-end">
             <div className="space-y-2">
-              <h1 className="font-heading text-3xl font-black tracking-tight text-primary">Danh sách tài sản</h1>
+              <h1 className="va-heading-1">Danh sách tài sản</h1>
               <p className="font-medium text-muted-foreground">Tìm thấy 245 tài sản đang được đấu giá</p>
             </div>
             <div className="flex items-center gap-4">
-              <select className="cursor-pointer border-b-2 border-border bg-transparent px-2 py-2 text-sm font-bold focus:border-secondary focus:outline-none">
+              <select className="min-h-12 cursor-pointer border-b border-border bg-transparent px-2 py-2 font-mono text-xs font-semibold focus:border-secondary focus:outline-none">
                 <option>Kết thúc sớm nhất</option>
                 <option>Giá từ thấp đến cao</option>
                 <option>Giá từ cao đến thấp</option>
@@ -170,18 +170,60 @@ export default function AuctionListPage() {
             </div>
           </header>
 
+          <details className="border border-border bg-card lg:hidden">
+            <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-bold text-primary marker:hidden">
+              <span>Bộ lọc tài sản</span>
+              <span className="text-xs font-semibold text-secondary">Mở bộ lọc</span>
+            </summary>
+            <div className="grid gap-5 border-t border-border p-4 sm:grid-cols-2">
+              <fieldset className="space-y-3">
+                <legend className="text-sm font-bold text-primary">Danh mục</legend>
+                {['Bất động sản', 'Phương tiện vận tải', 'Đồ cổ & Nghệ thuật', 'Tài sản khác'].map((item) => (
+                  <label key={item} className="flex min-h-11 items-center gap-3 text-sm text-muted-foreground">
+                    <input type="checkbox" className="size-4 accent-secondary" />
+                    {item}
+                  </label>
+                ))}
+              </fieldset>
+              <fieldset className="space-y-3">
+                <legend className="text-sm font-bold text-primary">Trạng thái</legend>
+                {['Đang diễn ra', 'Sắp đấu giá', 'Đã kết thúc'].map((item) => (
+                  <label key={item} className="flex min-h-11 items-center gap-3 text-sm text-muted-foreground">
+                    <input type="radio" name="mobile-status" className="size-4 accent-secondary" />
+                    {item}
+                  </label>
+                ))}
+              </fieldset>
+              <div className="grid grid-cols-2 gap-3 sm:col-span-2">
+                <label className="space-y-2 text-sm font-semibold text-primary">
+                  <span>Từ (VND)</span>
+                  <input className="va-field" inputMode="numeric" placeholder="0" />
+                </label>
+                <label className="space-y-2 text-sm font-semibold text-primary">
+                  <span>Đến (VND)</span>
+                  <input className="va-field" inputMode="numeric" placeholder="5.000.000.000" />
+                </label>
+              </div>
+              <button type="button" className="va-button-primary sm:col-span-2">Áp dụng bộ lọc</button>
+            </div>
+          </details>
+
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
             {auctions.map((item) => (
               <article
                 key={item.title}
-                className={`group flex flex-col overflow-hidden bg-(--surface-container-low) transition-colors hover:bg-(--surface-container-high) ${item.statusType === "closed" ? "opacity-80" : ""}`}
+                className={`va-card group flex flex-col overflow-hidden transition-colors hover:border-secondary ${item.statusType === "closed" ? "opacity-80" : ""}`}
               >
                 <div className="relative aspect-4/3 overflow-hidden">
                   <img src={item.image} alt={item.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute left-4 top-4">
                     <span
-                      className={`px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white ${
-                        item.statusType === "live" ? "bg-red-600" : item.statusType === "closed" ? "bg-muted-foreground" : "bg-secondary"
+                      className={`va-status uppercase tracking-wider ${
+                        item.statusType === "live"
+                          ? "bg-status-live text-status-live-foreground"
+                          : item.statusType === "closed"
+                            ? "bg-status-ended text-status-ended-foreground"
+                            : "bg-status-upcoming text-status-upcoming-foreground"
                       }`}
                     >
                       {item.status}
@@ -189,24 +231,24 @@ export default function AuctionListPage() {
                   </div>
                   {item.time ? (
                     <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/60 to-transparent p-4">
-                      <span className="text-xs font-bold text-white">{item.time}</span>
+                      <span className="font-mono text-xs font-semibold text-white">{item.time}</span>
                     </div>
                   ) : null}
                 </div>
                 <div className={`flex flex-1 flex-col space-y-4 p-6 ${item.statusType === "closed" ? "grayscale" : ""}`}>
                   <div className="space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">{item.category}</span>
-                    <h3 className="line-clamp-2 font-heading text-lg font-bold leading-tight text-primary">{item.title}</h3>
+                    <span className="font-mono text-xs font-semibold uppercase tracking-[0.08em] text-secondary">{item.category}</span>
+                    <h3 className="line-clamp-2 font-heading text-xl font-medium leading-tight text-primary">{item.title}</h3>
                   </div>
                   <div className="mt-auto flex items-end justify-between border-t border-border/60 pt-4">
                     <div className="space-y-1">
-                      <p className="text-[10px] font-bold uppercase tracking-tight text-muted-foreground/70">{item.priceLabel}</p>
-                      <p className="font-heading text-lg font-black tracking-tight text-primary">{item.price}</p>
+                      <p className="font-mono text-xs font-medium uppercase tracking-[0.04em] text-muted-foreground">{item.priceLabel}</p>
+                      <p className="font-mono text-sm font-semibold tracking-tight text-primary">{item.price}</p>
                     </div>
                     {item.statusType === "live" ? (
                       <Link
                         href="/auction-detail"
-                        className="bg-secondary px-4 py-2 text-center text-xs font-bold uppercase tracking-widest text-secondary-foreground transition-opacity hover:opacity-90"
+                        className="va-button-secondary min-h-11 px-4 text-center text-xs uppercase tracking-widest"
                       >
                         Đấu giá ngay
                       </Link>
@@ -215,7 +257,7 @@ export default function AuctionListPage() {
                     ) : (
                       <Link
                         href="/auction-detail"
-                        className="flex h-10 w-10 items-center justify-center border border-border text-primary transition-colors hover:bg-secondary hover:text-secondary-foreground"
+                        className="flex size-12 items-center justify-center border border-border text-primary transition-colors duration-180 hover:bg-primary hover:text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                       >
                         →
                       </Link>
@@ -227,19 +269,19 @@ export default function AuctionListPage() {
           </div>
 
           <div className="flex items-center justify-center gap-2 pt-8">
-            <button className="flex h-10 w-10 items-center justify-center text-muted-foreground transition-colors hover:text-primary">{"<"}</button>
-            <button className="flex h-10 w-10 items-center justify-center bg-primary font-bold text-primary-foreground">1</button>
-            <button className="flex h-10 w-10 items-center justify-center font-bold text-muted-foreground transition-colors hover:bg-(--surface-container-highest)">
+            <button aria-label="Trang trước" className="flex size-11 items-center justify-center text-muted-foreground transition-colors hover:text-primary">{"<"}</button>
+            <button aria-current="page" className="flex size-11 items-center justify-center bg-primary font-bold text-primary-foreground">1</button>
+            <button className="flex size-11 items-center justify-center font-bold text-muted-foreground transition-colors hover:bg-(--surface-container-highest)">
               2
             </button>
-            <button className="flex h-10 w-10 items-center justify-center font-bold text-muted-foreground transition-colors hover:bg-(--surface-container-highest)">
+            <button className="flex size-11 items-center justify-center font-bold text-muted-foreground transition-colors hover:bg-(--surface-container-highest)">
               3
             </button>
-            <span className="flex h-10 w-10 items-center justify-center text-muted-foreground">...</span>
-            <button className="flex h-10 w-10 items-center justify-center font-bold text-muted-foreground transition-colors hover:bg-(--surface-container-highest)">
+            <span className="flex size-11 items-center justify-center text-muted-foreground">...</span>
+            <button className="flex size-11 items-center justify-center font-bold text-muted-foreground transition-colors hover:bg-(--surface-container-highest)">
               12
             </button>
-            <button className="flex h-10 w-10 items-center justify-center text-muted-foreground transition-colors hover:text-primary">{">"}</button>
+            <button aria-label="Trang sau" className="flex size-11 items-center justify-center text-muted-foreground transition-colors hover:text-primary">{">"}</button>
           </div>
         </div>
       </main>

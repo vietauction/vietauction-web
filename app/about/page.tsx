@@ -9,37 +9,38 @@ export default function AboutPage() {
       <SiteHeader />
       <main>
         <section className="relative overflow-hidden px-6 py-12 sm:py-16">
-          <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-8 lg:grid-cols-12">
-            <div className="relative min-h-[440px] overflow-hidden bg-primary p-8 lg:col-span-8 lg:p-12">
+          <div className="mx-auto grid max-w-[1320px] grid-cols-1 gap-8 lg:grid-cols-12">
+            <div className="relative min-h-[440px] overflow-hidden bg-[#181510] p-8 lg:col-span-8 lg:p-12">
               <Image
-                src="/assets/image01.jpg"
-                alt="Không gian đấu giá nghệ thuật"
+                src="/assets/pages/about.webp"
+                alt="Không gian trưng bày tài sản nghệ thuật và di sản Việt Nam"
                 fill
                 sizes="(min-width: 1024px) 70vw, 100vw"
-                className="absolute inset-0 h-full w-full object-cover opacity-30"
+                priority
+                className="absolute inset-0 h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-linear-to-t from-primary via-(--primary)/80 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-r from-[#181510]/95 via-[#181510]/70 to-[#181510]/15" />
               <div className="relative z-10 max-w-3xl">
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-(--secondary-container)">
                   About VietAuction
                 </p>
-                <h1 className="mt-5 font-heading text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl">
+                <h1 className="mt-5 font-heading text-4xl font-medium leading-[1.04] tracking-[-0.045em] text-white sm:text-5xl">
                   Kiến tạo chuẩn mực đấu giá minh bạch tại Việt Nam
                 </h1>
-                <p className="mt-5 text-base leading-7 text-(--on-primary-container) sm:text-lg">
+                <p className="mt-5 text-base leading-7 text-[#d3ccc1] sm:text-lg">
                   Chúng tôi kết nối nhà sưu tầm, nhà đầu tư và những tài sản giá trị cao bằng nền tảng công nghệ hiện
                   đại, quy trình giám tuyển chặt chẽ và đội ngũ chuyên gia dày dạn kinh nghiệm.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
                     href="/auction-list"
-                    className="bg-(--secondary-container) px-6 py-3 text-sm font-bold text-(--on-secondary-container) transition-colors hover:bg-secondary hover:text-white"
+                    className="va-button-secondary"
                   >
                     Khám phá đấu giá
                   </Link>
                   <Link
                     href="/contact"
-                    className="border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/15"
+                    className="va-button min-h-12 border border-white/50 text-white hover:bg-white/10"
                   >
                     Liên hệ tư vấn
                   </Link>
@@ -48,12 +49,12 @@ export default function AboutPage() {
             </div>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-4">
               {[
-                ["10+", "Năm kinh nghiệm trong giám tuyển tài sản"],
-                ["30k+", "Người dùng đã đăng ký trên nền tảng"],
-                ["99%", "Phiên đấu giá được xác thực hồ sơ"],
+                ["01", "Minh bạch thông tin và điều kiện tham gia"],
+                ["02", "Theo dõi diễn biến phiên theo thời gian thực"],
+                ["03", "Hỗ trợ xuyên suốt trước và sau phiên"],
               ].map(([value, label]) => (
                 <article key={label} className="bg-(--surface-container-high) p-6 sm:col-span-2">
-                  <p className="font-heading text-3xl font-black text-primary">{value}</p>
+                  <p className="font-mono text-sm font-semibold text-secondary">{value}</p>
                   <p className="mt-2 text-sm text-muted-foreground">{label}</p>
                 </article>
               ))}
@@ -61,11 +62,11 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-screen-2xl px-6 py-20">
+        <section className="mx-auto max-w-[1320px] px-6 py-20">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.24em] text-secondary">Sứ mệnh</p>
-              <h2 className="mt-4 font-heading text-4xl font-black tracking-tight text-primary">
+              <h2 className="mt-4 font-heading text-4xl font-medium tracking-[-0.04em] text-primary">
                 Bảo toàn giá trị thật của từng tài sản
               </h2>
               <p className="mt-5 text-base leading-8 text-muted-foreground">
@@ -102,9 +103,9 @@ export default function AboutPage() {
         </section>
 
         <section className="bg-(--surface-container-low) px-6 py-20">
-          <div className="mx-auto max-w-screen-2xl">
+          <div className="mx-auto max-w-[1320px]">
             <p className="text-xs font-bold uppercase tracking-[0.24em] text-secondary">Hành trình</p>
-            <h2 className="mt-4 font-heading text-4xl font-black tracking-tight text-primary">
+            <h2 className="mt-4 font-heading text-4xl font-medium tracking-[-0.04em] text-primary">
               Lịch sử phát triển
             </h2>
             <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-4">
@@ -124,9 +125,9 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-screen-2xl px-6 py-24">
+        <section className="mx-auto max-w-[1320px] px-6 py-24">
           <div className="bg-(--surface-container-high) p-8 sm:p-12">
-            <h2 className="font-heading text-3xl font-black tracking-tight text-primary sm:text-4xl">
+            <h2 className="font-heading text-3xl font-medium tracking-[-0.04em] text-primary sm:text-4xl">
               Sẵn sàng đồng hành cùng VietAuction?
             </h2>
             <p className="mt-4 max-w-3xl text-muted-foreground">
@@ -136,13 +137,13 @@ export default function AboutPage() {
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
                 href="/regsiter"
-                className="bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-colors hover:opacity-90"
+                className="va-button-primary"
               >
                 Tạo tài khoản
               </Link>
               <Link
                 href="/contact"
-                className="border border-primary px-6 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+                className="va-button-outline"
               >
                 Liên hệ tư vấn
               </Link>

@@ -5,12 +5,12 @@ export default function SentPossestionPage() {
   return (
     <div className="min-h-svh bg-background text-foreground">
       <SiteHeader />
-      <main className="px-6 pb-20 pt-24">
+      <main className="va-container va-page-main">
         <div className="mx-auto max-w-4xl">
           <header className="mb-12 text-center">
-            <h1 className="mb-4 text-3xl font-black tracking-tight text-primary md:text-4xl">Gửi tài sản đấu giá</h1>
+            <h1 className="va-heading-1 mb-4">Gửi tài sản đấu giá</h1>
             <p className="mx-auto max-w-2xl leading-relaxed text-muted-foreground">
-              VietAuction là nơi kết nối những kiệt tác trang sức và tài sản quý hiếm với các nhà sưu tầm đẳng cấp toàn cầu.
+              VietAuction kết nối tài sản có giá trị với người mua phù hợp thông qua quy trình tiếp nhận và thẩm định rõ ràng.
             </p>
           </header>
 
@@ -39,7 +39,7 @@ export default function SentPossestionPage() {
           </div>
 
           <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-12">
-            <div className="rounded-xl bg-card p-8 shadow-sm md:col-span-8">
+            <div className="va-card p-6 sm:p-8 md:col-span-8">
               <form className="space-y-8">
                 <section>
                   <h2 className="mb-6 flex items-center gap-2 text-lg font-bold text-primary">
@@ -55,7 +55,7 @@ export default function SentPossestionPage() {
                         id="product_name"
                         type="text"
                         placeholder="VD: Nhẫn Kim cương Fancy Yellow 5 Carat"
-                        className="w-full rounded-lg border border-border bg-background p-4 placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary/30"
+                        className="va-field"
                       />
                     </div>
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -65,7 +65,7 @@ export default function SentPossestionPage() {
                         </label>
                         <select
                           id="category"
-                          className="w-full rounded-lg border border-border bg-background p-4 focus:outline-none focus:ring-2 focus:ring-secondary/30"
+                          className="va-field"
                         >
                           <option>Trang sức &amp; Đá quý</option>
                           <option>Đồng hồ cao cấp</option>
@@ -81,7 +81,7 @@ export default function SentPossestionPage() {
                           id="brand"
                           type="text"
                           placeholder="VD: Cartier, Patek Philippe..."
-                          className="w-full rounded-lg border border-border bg-background p-4 focus:outline-none focus:ring-2 focus:ring-secondary/30"
+                          className="va-field"
                         />
                       </div>
                     </div>
@@ -93,7 +93,7 @@ export default function SentPossestionPage() {
                   </button>
                   <button
                     type="button"
-                    className="flex items-center gap-2 rounded-lg bg-secondary px-10 py-3 font-bold text-secondary-foreground shadow-xl shadow-secondary/20 transition-transform hover:scale-[1.02]"
+                    className="va-button-secondary px-8"
                   >
                     Tiếp theo
                     <span className="material-symbols-outlined">arrow_forward</span>
@@ -103,7 +103,7 @@ export default function SentPossestionPage() {
             </div>
 
             <aside className="space-y-6 md:col-span-4">
-              <div className="relative overflow-hidden rounded-xl bg-primary p-6 text-primary-foreground">
+              <div className="relative overflow-hidden bg-primary p-6 text-primary-foreground">
                 <div className="relative z-10">
                   <h3 className="mb-2 text-lg font-bold">Quy trình thẩm định</h3>
                   <p className="text-sm leading-relaxed opacity-80">
@@ -113,7 +113,7 @@ export default function SentPossestionPage() {
                 <span className="material-symbols-outlined absolute -bottom-4 -right-4 rotate-12 text-7xl opacity-10">verified</span>
               </div>
 
-              <div className="rounded-xl bg-muted p-6">
+              <div className="border border-border bg-muted p-6">
                 <h4 className="mb-4 text-sm font-bold uppercase tracking-widest text-secondary">Lưu ý quan trọng</h4>
                 <ul className="space-y-4 text-sm text-muted-foreground">
                   <li className="flex gap-3">
@@ -135,9 +135,9 @@ export default function SentPossestionPage() {
         </div>
       </main>
 
-      <section className="mx-auto max-w-screen-2xl px-6 py-12">
+      <section className="mx-auto max-w-[1320px] px-6 py-12">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <div className="group relative aspect-4/5 overflow-hidden rounded-xl bg-muted">
+          <div className="group relative aspect-4/5 overflow-hidden bg-muted">
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsoGhpu86BDkxXJIcNRCUTygfxRaSGiYeZItMyEvJ44k7dcI7gpD6DDCD5Wm_n1RG0eWbNymXaP5xycS0Pn8iT7bQzaUuMZJgGdI-NBMpvDQLNIpxRF7oafyHp0wUlsYaWv9aD5FE24Kd4KLqZ-14ZdmlG0IWYAcbqfTqduz1nmTZKxW2y68RcYWS7fXBnU4nZdRUViLIgxabvaPP3kN6MzKDvA_dLB0HzGglDFH1qjnGaBoO-ZStrWpCzi5kZpBGohsscY3DoZIUm"
               alt="Nhẫn kim cương vàng với ánh sáng studio"
@@ -149,7 +149,7 @@ export default function SentPossestionPage() {
             </div>
           </div>
 
-          <div className="group relative aspect-4/5 overflow-hidden rounded-xl bg-muted">
+          <div className="group relative aspect-4/5 overflow-hidden bg-muted">
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCh5NzC2QHioMpJ18KDT6xdBtcI0P33PXGXdm3eGK6rSh66yPfeoBW1wRDg_hu0GhSVVFOUnItW8vvD8PLH_8L-17tkTj5On1iJxAiWNZ4JJmsm-pnYIkjb0V3ZS7PtYm27nA3d2n-sVNRHss946z0nhJWD1pvUKE5gyL-lnPQ_6i8NiE0COfFCEY21ar6seZLEFM36vxlLsQPDln88w-BVpS8CnagZsbdJFTM29OsT-CnArnKXkNGTFsEPtO6nhf9w6VRdM9ueplC6"
               alt="Đồng hồ cao cấp đặt trên đế gỗ"
@@ -161,7 +161,7 @@ export default function SentPossestionPage() {
             </div>
           </div>
 
-          <div className="group relative aspect-4/5 overflow-hidden rounded-xl bg-muted lg:hidden xl:block">
+          <div className="group relative aspect-4/5 overflow-hidden bg-muted lg:hidden xl:block">
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTGMiiKlXbvKLWuGXAOy89pcIAF0AsiEOYsO4mUNhCtJDZx3plukoKpRf7UsPk0dMxwXv_WLGlegwttqAoBt1VpvEL5ORawBRgshFZ0GnDnx63wH3n5TuwB8SIlPkuvrHLbcqRw64Oa0LGrrDuyiVQ9bG4AWeOvqVIkYCpf3TXrR0T7S-nErVIQFJBPv9IVo2y2X6rV3ohd9fGEfX4YmC3JtiZ7w9OULWmAfFWaV6xrJUbWibf1Il0aBZUB2Qdtp3SX216QOtnfeJx"
               alt="Dây chuyền ruby với kim cương trên nền nhung"

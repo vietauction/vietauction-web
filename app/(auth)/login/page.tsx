@@ -7,6 +7,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const loginSchema = z.object({
   username: z
@@ -64,27 +65,30 @@ export default function LoginPage() {
 
   return (
       <div className="flex min-h-svh bg-background text-foreground">
-        <section className="relative hidden overflow-hidden bg-primary lg:flex lg:w-1/2 lg:items-center lg:justify-center">
-          <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuApKy2HyuAA1aEnSaasz7Z_0gkvFVEHYoBC7z7yN_PbzRaQybX8mfu_PDM9YUiovcObTYpv4Id_0cCPt08VaCoZm37JeIKSRxnp55R5v3VaG34zg7dg21WR6kG6yB9679qh7Nj0CqbQ5TV4EDGJK12SzX7pkhvuYa45tLAOHW4UDLuR042kWoZjQz4FpxtOvrFseeqgXfODpPg0cI3snIXgPQB_AEpG7eQKkCz0B5aPgeDmZnA3RPZBJO1uTgnm8Anq_DELJyd-mFSG"
-            alt="Vietnamese imperial heritage"
-            className="absolute inset-0 h-full w-full object-cover opacity-60"
+        <section className="relative hidden overflow-hidden bg-[#181510] lg:flex lg:w-1/2 lg:items-center lg:justify-center">
+          <Image
+            src="/assets/pages/login.png"
+            alt="Nhà sưu tầm quan sát tác phẩm sơn mài trong không gian trưng bày"
+            fill
+            priority
+            sizes="50vw"
+            className="absolute inset-0 h-full w-full object-cover object-[62%_center]"
           />
-          <div className="absolute inset-0 bg-linear-to-br from-primary/95 via-(--primary-container)/80 to-primary/90" />
+          <div className="absolute inset-0 bg-linear-to-r from-[#181510]/95 via-[#181510]/65 to-[#181510]/25" />
           <div className="relative z-10 max-w-xl p-16">
-            <h1 className="font-heading text-5xl font-extrabold uppercase leading-tight text-primary-foreground">
-              The <br />
-              Sovereign <br />
-              Curator
+            <p className="font-mono text-xs tracking-[0.13em] text-[#cba765]">NỀN TẢNG ĐẤU GIÁ TÀI SẢN</p>
+            <h1 className="mt-5 font-heading text-5xl font-medium leading-[0.98] tracking-[-0.055em] text-[#f5f1e9]">
+              Giá trị được nhìn nhận.<br />
+              Minh bạch được đặt lên đầu.
             </h1>
-            <p className="mt-8 text-lg leading-relaxed text-(--on-primary-container)">
+            <p className="mt-8 text-lg leading-relaxed text-[#d3ccc1]">
               Khám phá và sở hữu những kiệt tác di sản, nghệ thuật Việt Nam qua hệ thống đấu giá trực tuyến uy tín và
               chuyên nghiệp hàng đầu.
             </p>
             <div className="mt-8 flex items-center gap-4">
-              <div className="h-px w-12 bg-(--secondary-container)" />
-              <span className="text-xs font-semibold uppercase tracking-widest text-(--secondary-container)">
-                VietAuction Heritage
+              <div className="h-px w-12 bg-[#cba765]" />
+              <span className="text-xs font-semibold uppercase tracking-widest text-[#cba765]">
+                VietAuction
               </span>
             </div>
           </div>
@@ -98,15 +102,15 @@ export default function LoginPage() {
             </Link>
 
             <div className="mb-10">
-              <h2 className="font-heading text-2xl font-bold text-primary">Chào mừng trở lại</h2>
+              <h2 className="font-heading text-3xl font-medium tracking-[-0.04em] text-primary">Chào mừng trở lại</h2>
               <p className="mt-2 text-muted-foreground">Đăng nhập để tiếp tục hành trình sưu tầm của bạn.</p>
             </div>
 
             <div className="mb-8 grid grid-cols-2 gap-4">
-              <button className="flex items-center justify-center gap-3 border border-border bg-(--surface-container-low) px-4 py-3 transition-colors hover:bg-(--surface-container-high)">
+              <button className="flex min-h-12 items-center justify-center gap-3 border border-border bg-(--surface-container-low) px-4 py-3 transition-colors hover:bg-(--surface-container-high)">
                 <span className="text-sm font-semibold text-primary">Google</span>
               </button>
-              <button className="flex items-center justify-center gap-3 border border-border bg-(--surface-container-low) px-4 py-3 transition-colors hover:bg-(--surface-container-high)">
+              <button className="flex min-h-12 items-center justify-center gap-3 border border-border bg-(--surface-container-low) px-4 py-3 transition-colors hover:bg-(--surface-container-high)">
                 <span className="text-sm font-semibold text-primary">Apple</span>
               </button>
             </div>
@@ -127,7 +131,7 @@ export default function LoginPage() {
                   type="email"
                   {...register("email")}
                   placeholder="ten@vidu.vn"
-                  className="w-full bg-(--surface-container-low) px-5 py-4 placeholder:text-muted-foreground/70 focus-visible:ring-2 focus-visible:ring-secondary/40"
+                  className="va-field px-5 py-4"
                 />
                 {errors.email && (
                   <p className='text-destructive text-sm'>
@@ -144,7 +148,7 @@ export default function LoginPage() {
                   type="text"
                   {...register("username")}
                   placeholder="Nguyen Van A"
-                  className="w-full bg-(--surface-container-low) px-5 py-4 placeholder:text-muted-foreground/70 focus-visible:ring-2 focus-visible:ring-secondary/40"
+                  className="va-field px-5 py-4"
                 />
                 {/* todo: error message */}
                 {errors.username && (
@@ -167,7 +171,7 @@ export default function LoginPage() {
                   {...register("password")}
                   type="password"
                   placeholder="••••••••"
-                  className="w-full bg-(--surface-container-low) px-5 py-4 placeholder:text-muted-foreground/70 focus-visible:ring-2 focus-visible:ring-secondary/40"
+                  className="va-field px-5 py-4"
                 />
                 {/* todo: error message */}
                 {errors.password && (
@@ -181,7 +185,7 @@ export default function LoginPage() {
                 <span className="ml-2 text-sm text-muted-foreground">Ghi nhớ đăng nhập</span>
               </label>
 
-              <button type="submit" className="w-full bg-secondary py-4 font-heading text-lg font-bold text-secondary-foreground transition-opacity hover:opacity-90">
+              <button type="submit" className="va-button-primary w-full text-base">
                 Đăng nhập
               </button>
             </form>
