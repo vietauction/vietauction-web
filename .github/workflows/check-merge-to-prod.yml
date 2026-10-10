@@ -1,0 +1,19 @@
+name: Restrict Merge to Prod
+
+on:
+  pull_request:
+    branches:
+      - prod # Chạy action này khi có PR trỏ vào nhánh prod
+
+jobs:
+  check-source-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify source branch is master
+        run: |
+          if [[ "${{ github.head_ref }}" != "master" ]]; then
+            echo "❌ Lỗi: Chỉ được phép tạo Pull Request từ nhánh 'master' vào 'prod'."
+            echo "Nhánh hiện tại đang thử merge là: ${{ github.head_ref }}"
+            exit 1
+          fi
+          echo "✅ Nhánh hợp lệ. Cho phép tiếp tục."
