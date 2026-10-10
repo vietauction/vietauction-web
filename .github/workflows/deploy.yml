@@ -1,0 +1,35 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - prod # Workflow chạy khi có code push lên nhánh prod
+
+jobs:
+  deploy:
+    name: Deploy Next.js App
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            # 1. Di chuyển tới thư mục chứa project trên VPS (HÃY SỬA ĐƯỜNG DẪN NÀY)
+            cd vietauction-web/
+            
+            # 2. Cập nhật code mới nhất
+            git pull origin prod
+            
+            # 3. Cài đặt các gói mới nếu có sự thay đổi trong package.json
+            npm install
+            
+            # 4. Build lại Next.js app cho môi trường production
+            npm run build
+            
+            # 5. Khởi động lại ứng dụng PM2 với tên vietauction-web
+            pm2 restart vietauction-web
