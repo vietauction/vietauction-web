@@ -214,6 +214,25 @@ Last updated: 2026-10-11
 - Next action:
   - Push the reviewed frontend and backend source to GitHub, then promote the backend through the existing CI/CD workflow without manual VPS builds.
 
+### 2026-10-11 — Standardize develop-to-master delivery workflow
+
+- Status: Complete.
+- Changes:
+  - Updated frontend and backend agent rules so every task starts from the latest `develop` branch on a short-lived `codex/*` branch.
+  - Defined the required delivery sequence: commit and push the task branch, merge it into `develop`, push `develop`, then create or update a `develop` → `master` pull request.
+  - Explicitly prohibited direct coding on `master`, force-pushes, branch-protection bypasses and automatic release-PR merges.
+  - Merged the authentication work into `develop` for both repositories.
+  - Created frontend PR `vietauction/vietauction-web#8` and backend PR `vietauction/vietauction-backend#12`, both targeting `master` from `develop`.
+- Validation:
+  - Frontend `develop` pushed at merge commit `e77d70a`.
+  - Backend `develop` pushed at merge commit `82587ea`.
+  - Both pull requests are open and attached to the task.
+  - `git diff --check` passed; no build or deployment command was run.
+- Remaining limitations:
+  - Both release pull requests require repository review before merging into `master`.
+- Next action:
+  - Review CI and code review results on PR #8 and PR #12; merge only after approval.
+
 ## Entry template
 
 Copy this section for future tasks:
