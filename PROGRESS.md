@@ -205,9 +205,11 @@ Last updated: 2026-10-11
   - Vercel deployment `dpl_GwrtfvtydM9RdVTiAKdxqzwz9eLb` reached `READY` and was aliased to `https://vietauction.vercel.app` before the delivery-policy correction.
   - End-to-end registration exposed that the currently running backend image still returns the old message-only registration response, so production session creation correctly remains unavailable until CI/CD deploys the new backend source.
   - `git diff --check` passed for both repositories; no new build was run after the user corrected the delivery policy.
+  - Frontend commit `de997dc` and backend commit `9e3fb36` were pushed to `origin/codex/auth-integration`; direct backend `master` push was correctly rejected by branch protection requiring a pull request.
 - Remaining limitations:
   - The HTTPS hostname uses `sslip.io` as an operational temporary domain; replace it with a controlled VietAuction subdomain when DNS access is available.
   - Backend source must be promoted through the repository's `prod` workflow before production login/registration uses the completed token response.
+  - Protected branches still require review and merge; no pull request was opened because the user authorized source push, not PR creation.
   - Direct public ports `8080` and `3306` remain a VPS hardening concern; source delivery does not authorize changing firewall/container networking.
 - Next action:
   - Push the reviewed frontend and backend source to GitHub, then promote the backend through the existing CI/CD workflow without manual VPS builds.
