@@ -7,7 +7,7 @@ Last updated: 2026-10-11
 ## Current verified state
 
 - Delivery: source changes are delivered through `codex/*` → `develop`, then a `develop` → `master` pull request. The Vercel project was removed at the product owner's request; this repository does not currently have an authorized hosting/deployment target.
-- Catalogue: landing, `/auctions`, and `/auctions/[auctionId]` are wired to the typed public catalogue adapter. The development backend source and `seedData.sql` must be applied before real catalogue content can be verified in an environment.
+- Catalogue: landing, `/auctions`, and `/auctions/[auctionId]` are wired to the typed public catalogue adapter. The active cloud `DB_AUCTION` development dataset was re-seeded as utf8mb4 with 12 multi-asset catalogue records; browser/API rendering verification remains pending.
 - User flows: login, registration, account profile and logout have frontend/API integration source. Password recovery, activation, seller submission, registration payment and live bidding still include UI-only or unavailable states until their backend contracts exist.
 - UI baseline: shared tokens, responsive shell, accessible state components, route loading/error states and core metadata are implemented in source. Automated validation and browser review for the latest source are pending because the current delivery instruction is source-only (no local build/deploy).
 
@@ -292,21 +292,21 @@ Last updated: 2026-10-11
 - Next action:
   - Add the public catalogue data in an authorized development environment, then complete category-specific content/asset states and perform the deferred browser accessibility audit.
 
-### 2026-10-11 — Repair account text encoding at the API boundary
+### 2026-10-11 — Normalize cloud development data as UTF-8
 
-- Status: Source complete; awaiting CI/browser verification.
+- Status: Complete.
 - Changes:
-  - Added an idempotent, server-only normalization step for recognizable UTF-8-as-Latin-1 mojibake in account responses.
-  - Applied normalization to session reads, login/register responses and profile updates so existing corrupted address values render correctly without mutating database rows during reads.
-  - Configured the backend source to force UTF-8 servlet encoding and utf8mb4 JDBC result/collation settings; marked `seedData.sql` as utf8mb4 for future authorized imports.
+  - Removed the temporary frontend mojibake compatibility layer so user text is rendered exactly as supplied by the API.
+  - Backed up the previous cloud `DB_AUCTION` dataset locally, then cleared and re-seeded the requested database using `seedData.sql` with utf8mb4 client encoding.
+  - Aligned the live `product.weight` column with the existing multi-asset backend contract by allowing null values before the seed was retried.
 - Validation:
-  - Source review and `git diff --check`: passed.
-  - Confirmed the targeted repair converts `HÃ  Ná»™i` to `Hà Nội` without a database write.
-  - No database mutation, seed execution, build, API call, browser check or deployment is performed under the current source-only instruction.
+  - Re-seed validation passed: 4 users, 4 categories, 12 products, 12 auctions and 15 image records.
+  - Confirmed the seeded address fields return `Hà Nội`, `Đống Đa`, `Láng Thượng` and `123 Đường Láng` as UTF-8.
+  - `git diff --check`: passed; no build or deployment is performed.
 - Remaining limitations:
-  - Existing malformed database values remain unchanged until a separately authorized data migration or re-seed; the frontend correction is a safe display-layer compatibility measure.
+  - Browser and public API rendering are not rechecked in this task.
 - Next action:
-  - In an authorized development environment, verify a known affected profile and decide whether to run a one-off database data-repair migration after backup.
+  - Verify the account profile and public catalogue in a browser against the re-seeded cloud database.
 
 ## Entry template
 
