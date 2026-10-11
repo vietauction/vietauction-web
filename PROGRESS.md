@@ -6,7 +6,7 @@ Last updated: 2026-10-11
 
 ## Current verified state
 
-- Delivery: source changes are delivered through `codex/*` → `develop`, then a `develop` → `master` pull request. The Vercel project was removed at the product owner's request; this repository does not currently have an authorized hosting/deployment target.
+- Delivery: source changes are made on local-only `codex/*` branches, merged locally into `develop`, then only `develop` is pushed. Release PRs are created only on explicit request. The Vercel project was removed at the product owner's request; this repository does not currently have an authorized hosting/deployment target.
 - Catalogue: landing, `/auctions`, and `/auctions/[auctionId]` are wired to the typed public catalogue adapter. The active cloud `DB_AUCTION` development dataset was re-seeded as utf8mb4 with 12 multi-asset catalogue records; browser/API rendering verification remains pending.
 - User flows: login, registration, account profile and logout have frontend/API integration source. Password recovery, activation, seller submission, registration payment and live bidding still include UI-only or unavailable states until their backend contracts exist.
 - UI baseline: shared tokens, responsive shell, accessible state components, route loading/error states and core metadata are implemented in source. Automated validation and browser review for the latest source are pending because the current delivery instruction is source-only (no local build/deploy).
@@ -307,6 +307,20 @@ Last updated: 2026-10-11
   - Browser and public API rendering are not rechecked in this task.
 - Next action:
   - Verify the account profile and public catalogue in a browser against the re-seeded cloud database.
+
+### 2026-10-11 — Restrict Git delivery to `develop`
+
+- Status: Complete.
+- Changes:
+  - Changed the standing frontend and backend delivery workflow so `codex/*` branches remain local-only.
+  - Required completed local work to merge into local `develop`, with only `develop` pushed to GitHub.
+  - Removed automatic release-PR creation; a `develop` → `master` PR now requires an explicit request.
+- Validation:
+  - Repository rules and AI coding instructions were reviewed for conflicting task-branch and release-PR wording.
+- Remaining limitations:
+  - Existing remote `codex/*` branches and release PRs are retained; deleting or closing them requires separate explicit authorization.
+- Next action:
+  - Use the local-branch-to-`develop` workflow for all future source tasks.
 
 ## Entry template
 
