@@ -123,13 +123,17 @@ Also visually inspect affected routes at desktop and mobile widths when the task
 
 ## Git workflow
 
-Use Trunk-Based Development with `master` as the integration branch.
+Use `develop` as the integration branch and `master` as the protected release branch.
 
-- Keep work small, focused, and ready to integrate.
-- If a branch is requested, use a short-lived branch with a descriptive prefix such as `feature/`, `fix/`, or `chore/`.
-- Do not commit, amend, create branches, force-push, open pull requests, or push to a remote unless the user explicitly asks in the current conversation.
+- Before coding, fetch the remote, switch to `develop`, and fast-forward it from `origin/develop`.
+- Create every task branch from the updated `develop` branch. Use a short-lived `codex/<task-name>` branch unless the user requests another name.
+- Keep work small, focused, and ready to integrate. Never start feature work from `master` and never commit directly to `master`.
 - When authorized to commit, use Conventional Commits, for example: `feat: add auction filters`, `fix: preserve mobile navigation`, or `docs: document UI rules`.
-- Before an authorized commit, inspect `git status`, review the staged diff, and include only files relevant to the request.
+- Before committing, inspect `git status`, review the staged diff, and include only files relevant to the request.
+- After the task is complete, push the task branch, merge it into `develop`, and push `develop`.
+- Then create or update a pull request with `develop` as the head branch and `master` as the base branch. Do not merge that pull request into `master` without an explicit user request or repository review approval.
+- Respect branch protection. Never force-push, bypass required reviews, or weaken repository rules.
+- This workflow is the user's standing delivery authorization for requested code tasks; build and deployment remain owned by CI/CD under the policy above.
 
 ## Handoff
 
