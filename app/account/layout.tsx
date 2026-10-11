@@ -1,10 +1,19 @@
 import type { ReactNode } from "react"
+import { redirect } from "next/navigation"
 
 import { AccountNav } from "@/components/account/account-nav"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
+import { getSessionUser } from "@/lib/server/auth-session"
 
-export default function AccountLayout({ children }: { children: ReactNode }) {
+export default async function AccountLayout({
+  children,
+}: {
+  children: ReactNode
+}) {
+  const user = await getSessionUser()
+  if (!user) redirect("/login")
+
   return (
     <div className="va-page">
       <SiteHeader />
@@ -13,8 +22,7 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
           <p className="va-eyebrow">Khu vực thành viên</p>
           <h1 className="va-heading-1 mt-3">Tài khoản của bạn</h1>
           <p className="mt-3 text-muted-foreground">
-            Dữ liệu hiển thị bên dưới là dữ liệu mô phỏng phục vụ kiểm thử giao
-            diện.
+            {`Quản lý thông tin cá nhân và hoạt động đấu giá của ${user.fullName}.`}
           </p>
         </div>
         <div className="grid items-start gap-8 lg:grid-cols-[270px_minmax(0,1fr)]">

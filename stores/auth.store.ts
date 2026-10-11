@@ -1,33 +1,18 @@
-import api from "@/configs/api.config";
-import { User } from "@/types/user.type";
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-
+import type { User } from "@/types/user.type"
+import { create } from "zustand"
 
 interface AuthState {
-  accessToken: string | null;
-  refreshToken: string | null;
-  user: User | null;
-  loading: boolean;
-
-  setAccessToken: (accessToken: string) => void;
-  clearState: () => void;
+  user: User | null
+  loading: boolean
+  setUser: (user: User | null) => void
+  setLoading: (loading: boolean) => void
+  clearState: () => void
 }
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
-      accessToken: null,
-      refreshToken: null,
-      user: null,
-      loading: false,
-
-      setAccessToken: (accessToken) => set({ accessToken }),
-      clearState: () => set({ accessToken: null, refreshToken: null, user: null, loading: false }),
-    }),
-
-    {
-      name: "auth-storage", // localStorage key
-    }
-  )
-);
+export const useAuthStore = create<AuthState>((set) => ({
+  user: null,
+  loading: false,
+  setUser: (user) => set({ user }),
+  setLoading: (loading) => set({ loading }),
+  clearState: () => set({ user: null, loading: false }),
+}))

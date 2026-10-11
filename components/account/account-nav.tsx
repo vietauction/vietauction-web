@@ -1,14 +1,18 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import { useState } from "react"
 import {
   Gavel,
   KeyRound,
+  LogOut,
   PackageSearch,
   ReceiptText,
   UserRound,
 } from "lucide-react"
+
+import { logout } from "@/services/auth.api"
 
 const items = [
   { href: "/account/profile", label: "Hồ sơ cá nhân", icon: UserRound },
@@ -20,6 +24,23 @@ const items = [
 
 export function AccountNav() {
   const pathname = usePathname()
+  const router = useRouter()
+  const [loggingOut, setLoggingOut] = useState(false)
+  const [error, setError] = useState("")
+
+  async function handleLogout() {
+    setLoggingOut(true)
+    setError("")
+    try {
+      await logout()
+      router.replace("/login")
+      router.refresh()
+    } catch {
+      setError("Không thể đăng xuất. Vui lòng thử lại.")
+      setLoggingOut(false)
+    }
+  }
+
   return (
     <nav aria-label="Điều hướng tài khoản" className="va-card p-2">
       {items.map((item) => {
@@ -38,6 +59,20 @@ export function AccountNav() {
           </Link>
         )
       })}
+      <button
+        type="button"
+        onClick={handleLogout}
+        disabled={loggingOut}
+        className="mt-2 flex min-h-12 w-full items-center gap-3 border-t border-border px-4 pt-3 text-left text-sm font-semibold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-primary disabled:cursor-wait disabled:opacity-60"
+      >
+        <LogOut size={17} />
+        {loggingOut ? "Đang đăng xuất…" : "Đăng xuất"}
+      </button>
+      {error ? (
+        <p role="alert" className="px-4 py-2 text-xs text-destructive">
+          {error}
+        </p>
+      ) : null}
     </nav>
   )
 }
