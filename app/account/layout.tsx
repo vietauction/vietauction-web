@@ -35,7 +35,7 @@ export default async function AccountLayout({
           <aside className="lg:sticky lg:top-24">
             <AccountNav />
           </aside>
-          <section>{children}</section>
+          <section className="min-w-0">{children}</section>
         </div>
       </main>
       <SiteFooter />

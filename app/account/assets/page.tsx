@@ -49,6 +49,9 @@ export default function AccountAssetsPage() {
               <p className="mt-1 font-numeric text-xs text-muted-foreground">
                 {asset.id} · Cập nhật {asset.updated}
               </p>
+              <span className="va-status mt-2 bg-muted text-foreground sm:hidden">
+                {asset.status}
+              </span>
             </div>
             <span className="va-status hidden bg-muted text-foreground sm:inline-flex">
               {asset.status}
