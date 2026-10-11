@@ -130,8 +130,9 @@ Use `develop` as the integration branch and `master` as the protected release br
 - Keep work small, focused, and ready to integrate. Never start feature work from `master` and never commit directly to `master`.
 - When authorized to commit, use Conventional Commits, for example: `feat: add auction filters`, `fix: preserve mobile navigation`, or `docs: document UI rules`.
 - Before committing, inspect `git status`, review the staged diff, and include only files relevant to the request.
-- After the task is complete, push the task branch, merge it into `develop`, and push `develop`.
-- Then create or update a pull request with `develop` as the head branch and `master` as the base branch. Do not merge that pull request into `master` without an explicit user request or repository review approval.
+- Keep every `codex/<task-name>` branch local. Do not push it to `origin`, open a pull request from it, or use it as a remote integration branch.
+- After the task is complete, merge the local task branch into local `develop`, then push only `develop` to `origin`.
+- Do not create or update a `develop` → `master` pull request unless the user explicitly requests a release pull request. Do not merge into `master` without an explicit user request or repository review approval.
 - Respect branch protection. Never force-push, bypass required reviews, or weaken repository rules.
 - This workflow is the user's standing delivery authorization for requested code tasks; build and deployment remain owned by CI/CD under the policy above.
 
