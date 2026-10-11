@@ -52,12 +52,22 @@ export function AuctionListClient({ auctions, categories, meta, error }: Catalog
   const state = searchParams.get("state") ?? "all"
   const sort = searchParams.get("sort") ?? "newest"
   const activeFilters = [
-    keyword ? `Từ khóa: ${keyword}` : null,
+    keyword ? { label: `Từ khóa: ${keyword}`, name: "q", clearValue: "" } : null,
     categoryId !== "all"
-      ? categories.find((item) => String(item.id) === categoryId)?.name
+      ? {
+          label: `Danh mục: ${categories.find((item) => String(item.id) === categoryId)?.name ?? categoryId}`,
+          name: "categoryId",
+          clearValue: "all",
+        }
       : null,
-    state !== "all" ? statuses.find((item) => item.value === state)?.label : null,
-  ].filter(Boolean)
+    state !== "all"
+      ? {
+          label: `Trạng thái: ${statuses.find((item) => item.value === state)?.label ?? state}`,
+          name: "state",
+          clearValue: "all",
+        }
+      : null,
+  ].filter((filter): filter is { label: string; name: string; clearValue: string } => Boolean(filter))
 
   function updateParam(name: string, value: string) {
     const next = new URLSearchParams(searchParams.toString())
@@ -80,7 +90,7 @@ export function AuctionListClient({ auctions, categories, meta, error }: Catalog
           Bộ lọc
         </h2>
         {activeFilters.length ? (
-          <button onClick={clearFilters} className="text-sm text-secondary hover:text-primary">
+          <button type="button" onClick={clearFilters} className="text-sm text-secondary hover:text-primary">
             Xóa tất cả
           </button>
         ) : null}
@@ -150,7 +160,23 @@ export function AuctionListClient({ auctions, categories, meta, error }: Catalog
                 <h2 id="results-heading" className="text-xl font-medium text-primary">
                   {meta.totalElements} tài sản phù hợp
                 </h2>
-                {activeFilters.length ? <p className="mt-1 text-sm text-muted-foreground">{activeFilters.join(" · ")}</p> : null}
+                {activeFilters.length ? (
+                  <ul aria-label="Bộ lọc đang áp dụng" className="mt-3 flex flex-wrap gap-2">
+                    {activeFilters.map((filter) => (
+                      <li key={filter.name}>
+                        <button
+                          type="button"
+                          onClick={() => updateParam(filter.name, filter.clearValue)}
+                          className="inline-flex min-h-9 items-center gap-2 border border-border bg-card px-3 text-sm text-muted-foreground transition-colors hover:border-secondary hover:text-primary"
+                        >
+                          {filter.label}
+                          <X size={14} aria-hidden="true" />
+                          <span className="sr-only">Xóa bộ lọc</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
               </div>
               <label className="flex items-center gap-3 text-sm">
                 <SlidersHorizontal size={16} aria-hidden="true" />
@@ -208,7 +234,7 @@ export function AuctionListClient({ auctions, categories, meta, error }: Catalog
               </button>
             </div>
             {filterContent}
-            <button onClick={() => setMobileFiltersOpen(false)} className="va-button-primary mt-8 w-full">
+            <button type="button" onClick={() => setMobileFiltersOpen(false)} className="va-button-primary mt-8 w-full">
               Xem {meta.totalElements} kết quả
             </button>
           </aside>

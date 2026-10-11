@@ -25,8 +25,7 @@ export default async function AuctionsPage({ searchParams }: PageProps) {
   const state = singleValue(query.state)
   const sort = singleValue(query.sort)
 
-  try {
-    const [catalogue, categories] = await Promise.all([
+  const catalogueResult = await Promise.all([
       getAuctionCatalog({
         page,
         limit: 6,
@@ -43,9 +42,10 @@ export default async function AuctionsPage({ searchParams }: PageProps) {
       }),
       getAuctionCategories(),
     ])
+    .then(([catalogue, categories]) => ({ catalogue, categories }))
+    .catch(() => null)
 
-    return <AuctionListClient auctions={catalogue.auctions} categories={categories} meta={catalogue.meta} />
-  } catch {
+  if (!catalogueResult) {
     return (
       <AuctionListClient
         auctions={[]}
@@ -55,4 +55,12 @@ export default async function AuctionsPage({ searchParams }: PageProps) {
       />
     )
   }
+
+  return (
+    <AuctionListClient
+      auctions={catalogueResult.catalogue.auctions}
+      categories={catalogueResult.categories}
+      meta={catalogueResult.catalogue.meta}
+    />
+  )
 }

@@ -23,13 +23,33 @@ Last updated: 2026-10-11
 | Phase                            | Status      | Completed                                                                                                                                                                                                                                                                                    | Remaining                                                                                                                                                                     |
 | -------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | P0 — Foundation and shared shell | In progress | Canonical routes, shared header/footer, Gilroy tokens, button/form baseline, not-found, global/catalogue loading states, recoverable route error state, server-only API client, auth BFF and HttpOnly session cookies | Shared offline/retry policy, refresh-token rotation, visual/browser regression validation |
-| P1 — Public discovery            | In progress | Landing, list and dynamic detail consume the live typed public catalogue API; list filters/sort/pagination use URL query state; About, Contact, legal metadata and responsive public shell | Advanced filters/chips, detail lightbox, bid preview, sold/unsold states, About FAQ and buyer/seller process content |
+| P1 — Public discovery            | In progress | Landing, list and dynamic detail consume the live typed public catalogue API; list filters/sort/pagination and removable query chips use URL state; detail supports an accessible full-screen gallery; About includes buyer/seller process and FAQ; Contact, legal metadata and responsive public shell | Bid preview, sold/unsold states and complete asset dossier content depend on backend fields; full keyboard/browser regression remains |
 | P2 — Participation               | Blocked     | Registration and live-room UI prototypes have explicit simulation/disabled states | Backend eligibility, registration, payment and live-bid contracts; closed/paused/outbid state data; durable bid history |
 | P3 — Authentication and account  | In progress | Login/register/logout/profile integration source, server-protected account routes, noindex account/auth metadata, shared account layout | Browser acceptance test against HTTPS API, refresh/activation/password APIs, invalid-token account states, account list filters/actions |
 | P4 — Seller journey              | Blocked     | Responsive four-step local draft wizard, validation, image preview, review and success state | Submission API, documents, reorder/cover controls, category-specific fields, failure/retry flow, object URL cleanup |
 | P5 — Assets and hardening        | In progress | Local page artwork, responsive breakpoints, focus/reduced-motion baseline, metadata/Open Graph defaults and accessibility state announcements | Category-specific production assets, full gallery/dossier content, accessibility/browser audit, Lighthouse and E2E coverage |
 
 ## Task log
+
+### 2026-10-11 — Complete public discovery controls and clean the static baseline
+
+- Status: Source complete; awaiting CI delivery and catalogue-enabled local QA.
+- Changes:
+  - Added removable, keyboard-accessible filter chips for keyword, category and auction status while retaining shareable URL query state.
+  - Added a full-screen, Escape-closeable image lightbox with focus return, backdrop close and responsive next/previous controls. Single-image assets no longer expose redundant gallery navigation.
+  - Completed the About page with an honest buyer/seller process and a native FAQ disclosure pattern. The content describes the current availability boundary instead of promising unsupported auction or seller operations.
+  - Redirected the obsolete mock `/profile` route to the API-backed canonical `/account/profile` route; updated its legacy navigation labels and removed the external mock avatar dependency.
+  - Resolved the known lint errors in the catalogue error boundary and profile language field; example agent files are now intentionally excluded from application linting.
+- Validation:
+  - `git diff --check`, `npm run typecheck` and `npm run lint` pass with no errors or warnings.
+  - Local browser QA confirmed the About page has one `h1`, logical heading order, exposed FAQ buttons, process lists, skip navigation and footer semantics.
+  - The local auction detail correctly rendered its recoverable API-error state because the local API base was unavailable; live gallery interaction therefore awaits a catalogue-enabled local or CI environment.
+  - No build, deployment, backend call that mutates data, or environment change was performed.
+- Remaining limitations:
+  - Auction participation, bid previews, paid registration, closed/sold results and authoritative dossier documents are still unavailable from the current backend contract.
+  - The account area needs an authenticated HTTPS browser acceptance pass; a complete public mobile/keyboard regression and automated E2E/Lighthouse coverage remain.
+- Next action:
+  - After CI delivers `develop`, verify the public list/detail gallery and filter interactions against the HTTPS catalogue, then address backend-contract work for participation and account states.
 
 ### 2026-10-11 — Correct category imagery in the live catalogue fallback
 
