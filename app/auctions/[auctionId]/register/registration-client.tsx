@@ -34,7 +34,7 @@ export function AuctionRegistrationClient({ auction }: { auction: Auction }) {
     return (
       <div className="va-page">
         <SiteHeader />
-        <main className="va-container flex min-h-[70svh] items-center justify-center py-16">
+        <main id="main-content" tabIndex={-1} className="va-container va-page-focus-target flex min-h-[70svh] items-center justify-center py-16">
           <section className="va-card max-w-2xl p-8 text-center sm:p-12">
             <span className="mx-auto flex size-14 items-center justify-center bg-status-verified text-status-verified-foreground">
               <Check size={28} />
@@ -71,7 +71,7 @@ export function AuctionRegistrationClient({ auction }: { auction: Auction }) {
   return (
     <div className="va-page">
       <SiteHeader />
-      <main className="va-container py-10 sm:py-14">
+      <main id="main-content" tabIndex={-1} className="va-container va-page-focus-target py-10 sm:py-14">
         <Link
           href={`/auctions/${auction.id}`}
           className="mb-8 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-secondary hover:text-primary"

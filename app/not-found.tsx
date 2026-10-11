@@ -7,7 +7,7 @@ export default function NotFoundPage() {
   return (
     <div className="va-page">
       <SiteHeader />
-      <main className="va-container flex min-h-[65svh] items-center justify-center py-16">
+      <main id="main-content" tabIndex={-1} className="va-container va-page-focus-target flex min-h-[65svh] items-center justify-center py-16">
         <section className="max-w-2xl text-center">
           <p className="font-numeric text-sm font-semibold tracking-[0.15em] text-secondary">
             404

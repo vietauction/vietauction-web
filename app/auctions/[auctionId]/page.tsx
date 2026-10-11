@@ -30,12 +30,13 @@ export async function generateMetadata({
   try {
     auction = await getAuctionById(auctionId)
   } catch {
-    return { title: "Tài sản đấu giá | VietAuction" }
+    return { title: "Tài sản đấu giá" }
   }
-  if (!auction) return { title: "Không tìm thấy tài sản | VietAuction" }
+  if (!auction) return { title: "Không tìm thấy tài sản" }
   return {
-    title: `${auction.title} | VietAuction`,
+    title: auction.title,
     description: auction.summary,
+    alternates: { canonical: `/auctions/${auction.id}` },
   }
 }
 
@@ -48,7 +49,7 @@ export default async function AuctionDetailPage({ params }: PageProps) {
     return (
       <div className="va-page">
         <SiteHeader />
-        <main className="va-container py-16">
+        <main id="main-content" tabIndex={-1} className="va-container va-page-focus-target py-16">
           <StateNotice
             kind="error"
             title="Chưa thể tải tài sản"
@@ -75,7 +76,7 @@ export default async function AuctionDetailPage({ params }: PageProps) {
   return (
     <div className="va-page">
       <SiteHeader />
-      <main>
+      <main id="main-content" tabIndex={-1} className="va-page-focus-target">
         <div className="va-container py-6">
           <nav
             aria-label="Đường dẫn"
@@ -84,7 +85,7 @@ export default async function AuctionDetailPage({ params }: PageProps) {
             <Link href="/auctions" className="hover:text-primary">
               Tài sản
             </Link>
-            <ChevronRight size={14} />
+            <ChevronRight size={14} aria-hidden="true" />
             <span className="font-numeric">{auction.lotNumber}</span>
           </nav>
         </div>

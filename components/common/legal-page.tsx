@@ -12,7 +12,7 @@ export function LegalPage({ eyebrow, title, intro, sections }: LegalPageProps) {
   return (
     <div className="va-page">
       <SiteHeader />
-      <main>
+      <main id="main-content" tabIndex={-1} className="va-page-focus-target">
         <header className="border-b border-border bg-card">
           <div className="va-container py-14 sm:py-20">
             <p className="va-eyebrow">{eyebrow}</p>

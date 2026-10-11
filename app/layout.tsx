@@ -43,12 +43,30 @@ const gilroyFont = localFont({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://website.vietauction.io.vn"),
   title: {
     default: "VietAuction — Đấu giá tài sản minh bạch",
     template: "%s · VietAuction",
   },
   description:
     "Khám phá, đăng ký và theo dõi các phiên đấu giá tài sản được trình bày minh bạch.",
+  applicationName: "VietAuction",
+  keywords: ["đấu giá", "tài sản", "VietAuction", "đấu giá trực tuyến"],
+  openGraph: {
+    type: "website",
+    locale: "vi_VN",
+    siteName: "VietAuction",
+    title: "VietAuction — Đấu giá tài sản minh bạch",
+    description:
+      "Khám phá, đăng ký và theo dõi các phiên đấu giá tài sản được trình bày minh bạch.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "VietAuction — Đấu giá tài sản minh bạch",
+    description:
+      "Khám phá, đăng ký và theo dõi các phiên đấu giá tài sản được trình bày minh bạch.",
+  },
+  robots: { index: true, follow: true },
 }
 
 export default function RootLayout({
@@ -63,6 +81,9 @@ export default function RootLayout({
       className={`${gilroyFont.variable} antialiased`}
     >
       <body>
+        <a href="#main-content" className="va-skip-link">
+          Bỏ qua điều hướng
+        </a>
         <ThemeProvider defaultTheme="light" enableSystem={false}>
           {children}
           <Toaster position="top-right" />

@@ -85,6 +85,7 @@ export default function TransactionsPage() {
           <aside
             role="dialog"
             aria-modal="true"
+            aria-labelledby="transaction-detail-title"
             className="ml-auto h-full w-[min(100%,430px)] bg-background p-7 shadow-2xl"
           >
             <div className="flex items-center justify-between">
@@ -102,7 +103,7 @@ export default function TransactionsPage() {
             <p className="mt-8 font-numeric text-xs font-semibold tracking-[0.13em] text-secondary uppercase">
               {selected.id}
             </p>
-            <h2 className="mt-3 text-2xl font-bold">{selected.title}</h2>
+            <h2 id="transaction-detail-title" className="mt-3 text-2xl font-bold">{selected.title}</h2>
             <p className="font-price mt-6 font-numeric text-3xl">
               {formatMoney(selected.amount)}
             </p>

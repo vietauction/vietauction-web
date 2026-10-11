@@ -23,7 +23,7 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <main className="flex min-h-svh items-center justify-center bg-background p-6">
+    <main id="main-content" tabIndex={-1} className="va-page-focus-target flex min-h-svh items-center justify-center bg-background p-6">
       <section className="va-card w-full max-w-lg p-7 sm:p-10">
         {success ? (
           <div className="text-center">
