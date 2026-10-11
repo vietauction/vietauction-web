@@ -96,7 +96,7 @@ export function LiveAuctionClient({ auction }: { auction: Auction }) {
   return (
     <div className="va-page">
       <SiteHeader />
-      <main className="bg-[#181510] text-[#f5f1e9]">
+      <main id="main-content" tabIndex={-1} className="va-page-focus-target bg-[#181510] text-[#f5f1e9]">
         <div className="va-container py-8 sm:py-10">
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
             <Link

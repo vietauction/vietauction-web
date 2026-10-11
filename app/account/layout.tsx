@@ -1,10 +1,16 @@
 import type { ReactNode } from "react"
+import type { Metadata } from "next"
 import { redirect } from "next/navigation"
 
 import { AccountNav } from "@/components/account/account-nav"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { getSessionUser } from "@/lib/server/auth-session"
+
+export const metadata: Metadata = {
+  title: "Tài khoản",
+  robots: { index: false, follow: false },
+}
 
 export default async function AccountLayout({
   children,
@@ -17,7 +23,7 @@ export default async function AccountLayout({
   return (
     <div className="va-page">
       <SiteHeader />
-      <main className="va-container py-10 sm:py-14">
+      <main id="main-content" tabIndex={-1} className="va-container va-page-focus-target py-10 sm:py-14">
         <div className="mb-8">
           <p className="va-eyebrow">Khu vực thành viên</p>
           <h1 className="va-heading-1 mt-3">Tài khoản của bạn</h1>

@@ -133,7 +133,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <main className="grid min-h-svh bg-background lg:grid-cols-[.8fr_1.2fr]">
+    <main id="main-content" tabIndex={-1} className="va-page-focus-target grid min-h-svh bg-background lg:grid-cols-[.8fr_1.2fr]">
       <section className="relative hidden min-h-svh overflow-hidden bg-primary lg:sticky lg:top-0 lg:block lg:h-svh">
         <Image
           src="/assets/pages/register.webp"

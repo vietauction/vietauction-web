@@ -120,7 +120,7 @@ export default function SellPage() {
     return (
       <div className="va-page">
         <SiteHeader />
-        <main className="va-container flex min-h-[65svh] items-center justify-center py-16">
+        <main id="main-content" tabIndex={-1} className="va-container va-page-focus-target flex min-h-[65svh] items-center justify-center py-16">
           <section className="va-card max-w-2xl p-8 text-center sm:p-12">
             <span className="mx-auto flex size-14 items-center justify-center bg-status-verified text-white">
               <Check />
@@ -156,7 +156,7 @@ export default function SellPage() {
   return (
     <div className="va-page">
       <SiteHeader />
-      <main className="va-container py-10 sm:py-14">
+      <main id="main-content" tabIndex={-1} className="va-container va-page-focus-target py-10 sm:py-14">
         <div className="mx-auto max-w-5xl">
           <div className="text-center">
             <p className="va-eyebrow">Dành cho người sở hữu</p>

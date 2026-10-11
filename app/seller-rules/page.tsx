@@ -1,4 +1,11 @@
 import { LegalPage } from "@/components/common/legal-page"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Quy định gửi tài sản",
+  description: "Nguyên tắc tiếp nhận và thẩm định tài sản trên VietAuction.",
+  alternates: { canonical: "/seller-rules" },
+}
 
 export default function SellerRulesPage() {
   return (

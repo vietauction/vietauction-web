@@ -4,6 +4,13 @@ This file tracks implementation status and completed work for the VietAuction fr
 
 Last updated: 2026-10-11
 
+## Current verified state
+
+- Delivery: source changes are delivered through `codex/*` → `develop`, then a `develop` → `master` pull request. The Vercel project was removed at the product owner's request; this repository does not currently have an authorized hosting/deployment target.
+- Catalogue: landing, `/auctions`, and `/auctions/[auctionId]` are wired to the typed public catalogue adapter. The development backend source and `seedData.sql` must be applied before real catalogue content can be verified in an environment.
+- User flows: login, registration, account profile and logout have frontend/API integration source. Password recovery, activation, seller submission, registration payment and live bidding still include UI-only or unavailable states until their backend contracts exist.
+- UI baseline: shared tokens, responsive shell, accessible state components, route loading/error states and core metadata are implemented in source. Automated validation and browser review for the latest source are pending because the current delivery instruction is source-only (no local build/deploy).
+
 ## Status legend
 
 - `Planned`: scope agreed, implementation has not started.
@@ -15,12 +22,12 @@ Last updated: 2026-10-11
 
 | Phase                            | Status      | Completed                                                                                                                                                                                                                                                                                    | Remaining                                                                                                                                                                     |
 | -------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P0 — Foundation and shared shell | In progress | Canonical routes, shared header/footer, Gilroy typography, design tokens, button baseline, not-found page, legacy redirects, server-only API client, auth BFF, HttpOnly session cookies, signed-in header and public auction catalogue adapter | Shared form/state components, global loading/error/offline states and refresh-token rotation |
-| P1 — Public discovery            | In progress | Landing, auction list and dynamic detail consume the typed public catalogue API; list filters/sort/pagination use URL query state; About, Contact and legal pages | Advanced filters, removable chips, detail lightbox, bid preview, sold/unsold/unavailable states, About FAQ and buyer/seller processes |
-| P2 — Participation               | In progress | Registration form with three consents and mock payment method, live room with confirmation and accepted/rejected bids                                                                                                                                                                        | Eligibility states, already-registered/closed states, final registration confirmation, connecting/outbid/paused/ended live states, long bid history                           |
-| P3 — Authentication and account  | In progress | Backend-connected login/register/logout, email-or-username login, authenticated-route redirects, server-protected account routes, database-backed profile read/update, forgot/reset password UI, activation UI, shared account layout, security, auctions, transactions and submitted assets | Backend refresh/activation/password flows, invalid/expired token states, account loading/empty/error fixtures, search/filter/pagination, transaction and asset actions        |
-| P4 — Seller journey              | In progress | Four-step seller wizard, per-step validation, local draft, image preview, review and success                                                                                                                                                                                                 | Supporting documents, image reorder, manual cover selection, complete category fields, submission failure, object URL cleanup, richer asset-tracking actions                  |
-| P5 — Assets and hardening        | Planned     | Local page artwork, responsive baseline, typecheck/lint/build baseline                                                                                                                                                                                                                       | Category-specific production imagery, complete galleries, organizer marks, accessibility/focus audit, reduced motion, metadata/Open Graph, Lighthouse and E2E coverage        |
+| P0 — Foundation and shared shell | In progress | Canonical routes, shared header/footer, Gilroy tokens, button/form baseline, not-found, global and catalogue loading states, recoverable route error state, server-only API client, auth BFF and HttpOnly session cookies | Shared offline/retry policy, refresh-token rotation, latest source validation |
+| P1 — Public discovery            | In progress | Landing, list and dynamic detail consume the typed public catalogue API; list filters/sort/pagination use URL query state; About, Contact, legal metadata and responsive public shell | Advanced filters/chips, detail lightbox, bid preview, sold/unsold states, About FAQ and buyer/seller process content |
+| P2 — Participation               | In progress | Registration and live-room UI prototypes with explicit simulation/disabled states | Backend eligibility, registration, payment and live-bid contracts; closed/paused/outbid state data; durable bid history |
+| P3 — Authentication and account  | In progress | Login/register/logout/profile integration source, server-protected account routes, noindex account/auth metadata, shared account layout | Verified deployed API configuration, refresh/activation/password APIs, invalid-token account states, account list filters/actions |
+| P4 — Seller journey              | In progress | Responsive four-step local draft wizard, validation, image preview, review and success state | Submission API, documents, reorder/cover controls, category-specific fields, failure/retry flow, object URL cleanup |
+| P5 — Assets and hardening        | In progress | Local page artwork, responsive breakpoints, focus/reduced-motion baseline, metadata/Open Graph defaults and accessibility state announcements | Category-specific production assets, full gallery/dossier content, accessibility/browser audit, Lighthouse and E2E coverage |
 
 ## Task log
 
@@ -264,6 +271,26 @@ Last updated: 2026-10-11
   - Dedicated art, real-estate and vehicle imagery and category-specific asset attributes remain outstanding.
 - Next action:
   - Apply the development seed in an authorized environment, verify the public catalogue HTTP contract, then complete category-specific gallery assets and the read-only detail dossier.
+
+### 2026-10-11 — Standardize UI baseline and correct progress status
+
+- Status: Source complete; awaiting CI/browser verification.
+- Changes:
+  - Added a shared, responsive loading skeleton for generic content, catalogue grids and detail pages; added global recoverable route error UI and dedicated loading boundaries for catalogue routes.
+  - Standardized accessible state announcements, visible keyboard focus, a skip-navigation link and skip targets across the shared/public/auth/seller/account routes updated in this task.
+  - Tightened mobile navigation and catalogue filter dialog semantics, gallery button semantics, form error associations and decorative icon treatment.
+  - Added canonical metadata for core public pages, Open Graph/Twitter defaults, a production-domain metadata base, and `noindex` metadata for account/auth/action routes.
+  - Added distinct landing catalogue empty and temporary-service-error messaging rather than treating both as the same empty state.
+  - Replaced the stale milestone claims above with the currently verified delivery, API and hosting status; historical deployment notes remain as dated history only.
+- Validation:
+  - `git diff --check`: passed.
+  - Typecheck, lint, build, browser inspection, API execution and deployment are intentionally not run under the current source-only instruction.
+- Remaining limitations:
+  - No offline boundary or automated accessibility/E2E suite exists yet.
+  - Several account, seller and participation screens remain UI prototypes until their backend contracts are delivered.
+  - Current state has not been visually revalidated after these source edits.
+- Next action:
+  - Add the public catalogue data in an authorized development environment, then complete category-specific content/asset states and perform the deferred browser accessibility audit.
 
 ## Entry template
 
