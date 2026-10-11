@@ -29,6 +29,7 @@ export function AssetGallery({ images }: { images: AuctionImage[] }) {
         />
         <div className="absolute right-4 bottom-4 flex gap-2">
           <button
+            type="button"
             onClick={() => move(-1)}
             className="inline-flex size-11 items-center justify-center bg-primary text-primary-foreground"
             aria-label="Ảnh trước"
@@ -36,6 +37,7 @@ export function AssetGallery({ images }: { images: AuctionImage[] }) {
             <ChevronLeft size={19} />
           </button>
           <button
+            type="button"
             onClick={() => move(1)}
             className="inline-flex size-11 items-center justify-center bg-primary text-primary-foreground"
             aria-label="Ảnh tiếp theo"
@@ -47,10 +49,11 @@ export function AssetGallery({ images }: { images: AuctionImage[] }) {
       <div className="mt-3 grid grid-cols-3 gap-3">
         {images.map((image, index) => (
           <button
+            type="button"
             key={`${image.src}-${index}`}
             onClick={() => setActiveIndex(index)}
             aria-label={`Xem ảnh ${index + 1}`}
-            aria-current={index === activeIndex ? "true" : undefined}
+            aria-pressed={index === activeIndex}
             className={`relative aspect-[4/3] overflow-hidden border-2 ${index === activeIndex ? "border-secondary" : "border-transparent opacity-70 hover:opacity-100"}`}
           >
             <Image

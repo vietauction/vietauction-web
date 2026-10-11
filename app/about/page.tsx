@@ -1,13 +1,21 @@
 import Image from "next/image"
 import Link from "next/link"
+import type { Metadata } from "next"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
+
+export const metadata: Metadata = {
+  title: "Về VietAuction",
+  description:
+    "Tìm hiểu định hướng, quy trình tuyển chọn và cam kết minh bạch của VietAuction.",
+  alternates: { canonical: "/about" },
+}
 
 export default function AboutPage() {
   return (
     <div className="min-h-svh bg-background text-foreground">
       <SiteHeader />
-      <main>
+      <main id="main-content" tabIndex={-1} className="va-page-focus-target">
         <section className="relative overflow-hidden px-6 py-12 sm:py-16">
           <div className="mx-auto grid max-w-[1320px] grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="relative min-h-[440px] overflow-hidden bg-[#181510] p-8 lg:col-span-8 lg:p-12">

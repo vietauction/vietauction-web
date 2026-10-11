@@ -124,7 +124,7 @@ export function AuctionListClient({ auctions, categories, meta, error }: Catalog
   return (
     <div className="va-page">
       <SiteHeader />
-      <main>
+      <main id="main-content" tabIndex={-1} className="va-page-focus-target">
         <section className="border-b border-border bg-card">
           <div className="va-container py-12 sm:py-16">
             <p className="va-eyebrow">Khám phá tài sản</p>
@@ -135,7 +135,7 @@ export function AuctionListClient({ auctions, categories, meta, error }: Catalog
                   Khám phá tài sản theo danh mục, trạng thái và hồ sơ công bố bởi VietAuction.
                 </p>
               </div>
-              <button onClick={() => setMobileFiltersOpen(true)} className="va-button-outline lg:hidden">
+              <button type="button" onClick={() => setMobileFiltersOpen(true)} className="va-button-outline lg:hidden">
                 <Filter size={17} /> Mở bộ lọc
               </button>
             </div>
@@ -143,7 +143,7 @@ export function AuctionListClient({ auctions, categories, meta, error }: Catalog
         </section>
 
         <div className="va-container grid gap-10 py-10 lg:grid-cols-[260px_minmax(0,1fr)] lg:py-14">
-          <aside className="hidden border-r border-border pr-8 lg:block">{filterContent}</aside>
+          <aside className="hidden border-r border-border pr-8 lg:block" aria-label="Bộ lọc tài sản">{filterContent}</aside>
           <section aria-labelledby="results-heading">
             <div className="mb-6 flex flex-col gap-4 border-b border-border pb-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -203,7 +203,7 @@ export function AuctionListClient({ auctions, categories, meta, error }: Catalog
           <aside role="dialog" aria-modal="true" aria-label="Bộ lọc tài sản" className="ml-auto h-full w-[min(92vw,390px)] overflow-y-auto bg-background p-6 shadow-2xl">
             <div className="mb-7 flex items-center justify-between">
               <p className="text-xl font-medium">Lọc tài sản</p>
-              <button onClick={() => setMobileFiltersOpen(false)} className="inline-flex size-11 items-center justify-center border border-border" aria-label="Đóng bộ lọc">
+              <button type="button" autoFocus onClick={() => setMobileFiltersOpen(false)} className="inline-flex size-11 items-center justify-center border border-border" aria-label="Đóng bộ lọc">
                 <X size={20} />
               </button>
             </div>

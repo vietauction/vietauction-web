@@ -54,7 +54,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="grid min-h-svh bg-background text-foreground lg:grid-cols-2">
+    <main id="main-content" tabIndex={-1} className="va-page-focus-target grid min-h-svh bg-background text-foreground lg:grid-cols-2">
       <section className="relative hidden min-h-svh overflow-hidden bg-primary lg:block">
         <Image
           src="/assets/pages/login-v2.png"
@@ -112,6 +112,8 @@ export default function LoginPage() {
                 className="va-field"
                 autoComplete="username"
                 placeholder="ten@vidu.vn hoặc tên đăng nhập"
+                aria-invalid={error ? true : undefined}
+                aria-describedby={error ? "login-error" : undefined}
               />
             </label>
             <label className="block space-y-2">
@@ -132,6 +134,8 @@ export default function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   placeholder="Tối thiểu 6 ký tự"
+                  aria-invalid={error ? true : undefined}
+                  aria-describedby={error ? "login-error" : undefined}
                 />
                 <button
                   type="button"
@@ -145,6 +149,7 @@ export default function LoginPage() {
             </label>
             {error ? (
               <p
+                id="login-error"
                 role="alert"
                 className="border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive"
               >

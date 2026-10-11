@@ -4,9 +4,10 @@ import { AuctionListClient } from "./auction-list-client"
 import { getAuctionCatalog, getAuctionCategories } from "@/lib/server/auction-catalog"
 
 export const metadata: Metadata = {
-  title: "Tài sản đấu giá | VietAuction",
+  title: "Tài sản đấu giá",
   description:
     "Khám phá tài sản đang chờ mở, đang đấu giá và các phiên đã kết thúc trên VietAuction.",
+  alternates: { canonical: "/auctions" },
 }
 
 type PageProps = {

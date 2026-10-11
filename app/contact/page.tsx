@@ -41,7 +41,7 @@ export default function ContactPage() {
   return (
     <div className="va-page">
       <SiteHeader />
-      <main>
+      <main id="main-content" tabIndex={-1} className="va-page-focus-target">
         <header className="va-container py-12 sm:py-16">
           <p className="va-eyebrow">Hỗ trợ khách hàng</p>
           <h1 className="va-heading-1 mt-4">
@@ -68,6 +68,7 @@ export default function ContactPage() {
                   thái mới để tiếp tục kiểm thử.
                 </p>
                 <button
+                  type="button"
                   onClick={() => {
                     setState("idle")
                     setValues({
@@ -149,6 +150,7 @@ export default function ContactPage() {
                   </p>
                 ) : null}
                 <button
+                  type="submit"
                   disabled={state === "submitting"}
                   className="va-button-primary"
                 >
@@ -163,7 +165,7 @@ export default function ContactPage() {
                 src="/assets/pages/contact.webp"
                 alt="Chuyên viên VietAuction trong không gian tư vấn"
                 fill
-                sizes="40vw"
+                sizes="(min-width: 1024px) 40vw, 100vw"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#181510]/85 via-transparent to-transparent" />

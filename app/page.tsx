@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import type { Metadata } from "next"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { AuctionCountdown } from "@/components/auction/auction-countdown"
@@ -7,6 +8,13 @@ import { getAuctionStatusLabel } from "@/components/auction/auction-status-badge
 import { formatMoney } from "@/lib/format"
 import { getAuctionCatalog } from "@/lib/server/auction-catalog"
 import type { Auction } from "@/types/auction"
+
+export const metadata: Metadata = {
+  title: "Đấu giá tài sản minh bạch",
+  description:
+    "Khám phá các phiên đấu giá tài sản được tuyển chọn, hồ sơ rõ ràng và quy trình tham gia minh bạch.",
+  alternates: { canonical: "/" },
+}
 
 const steps = [
   [
@@ -24,15 +32,16 @@ const steps = [
 
 export default async function HomePage() {
   let featuredAuctions: Auction[] = []
+  let catalogueUnavailable = false
   try {
     featuredAuctions = (await getAuctionCatalog({ limit: 3 })).auctions
   } catch {
-    featuredAuctions = []
+    catalogueUnavailable = true
   }
 
   return (
     <>
-      <main className="dgs-landing">
+      <main id="main-content" tabIndex={-1} className="dgs-landing va-page-focus-target">
         <section className="dgs-hero">
           <video
             className="dgs-hero__media"
@@ -144,10 +153,16 @@ export default async function HomePage() {
               ))}
             </div>
           ) : (
-            <div className="dgs-auction-grid">
-              <p className="dgs-hero__lede">
-                Catalogue đang được cập nhật. Vui lòng xem danh sách tài sản để thử lại.
-              </p>
+            <div className="dgs-empty-state" role={catalogueUnavailable ? "alert" : "status"}>
+              <p>{catalogueUnavailable ? "Chưa thể tải catalogue." : "Catalogue đang được cập nhật."}</p>
+              <span>
+                {catalogueUnavailable
+                  ? "Dịch vụ đang tạm thời không phản hồi."
+                  : "Các tài sản mới sẽ sớm được công bố."}
+              </span>
+              <Link className="dgs-text-link" href="/auctions">
+                Xem danh sách tài sản <span>→</span>
+              </Link>
             </div>
           )}
         </section>
