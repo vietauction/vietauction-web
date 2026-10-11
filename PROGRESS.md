@@ -31,20 +31,6 @@ Last updated: 2026-10-11
 
 ## Task log
 
-### 2026-10-11 — Repair responsive account navigation and records
-
-- Status: Source complete; awaiting CI delivery and authenticated browser QA.
-- Changes:
-  - Identified the account content column as a horizontal-overflow source: its minimum intrinsic width allowed the desktop transaction table to widen the overall page at narrow breakpoints.
-  - Added a constrained account content column, a horizontal scroll navigation rail on mobile, visible compact status information for submitted assets, and mobile-first transaction cards in place of a cramped data table.
-- Validation:
-  - Production account URLs redirect to login without an authenticated browser session, so the reported protected-page visual state cannot be inspected directly in production during this pass.
-  - `git diff --check`, `npm run typecheck` and `npm run lint` pass with no errors or warnings.
-- Remaining limitations:
-  - Account API records remain mocked in these two screens; only layout and interaction presentation are changed.
-- Next action:
-  - After CI delivery, complete an authenticated desktop/mobile browser regression for account records and modal interaction.
-
 ### 2026-10-11 — Refine the shared select chevron
 
 - Status: Source complete; awaiting CI delivery.

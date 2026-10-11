@@ -42,7 +42,7 @@ export function AccountNav() {
   }
 
   return (
-    <nav aria-label="Điều hướng tài khoản" className="va-card flex gap-1 overflow-x-auto p-2 lg:block">
+    <nav aria-label="Điều hướng tài khoản" className="va-card p-2">
       {items.map((item) => {
         const active =
           pathname === item.href || pathname.startsWith(`${item.href}/`)
@@ -52,7 +52,7 @@ export function AccountNav() {
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className={`flex min-h-12 shrink-0 items-center gap-3 border-b-2 px-4 text-sm font-semibold whitespace-nowrap transition-colors lg:border-b-0 lg:border-l-2 ${active ? "border-secondary bg-muted text-primary" : "border-transparent text-muted-foreground hover:bg-muted/60 hover:text-primary"}`}
+            className={`flex min-h-12 items-center gap-3 border-l-2 px-4 text-sm font-semibold transition-colors ${active ? "border-secondary bg-muted text-primary" : "border-transparent text-muted-foreground hover:bg-muted/60 hover:text-primary"}`}
           >
             <Icon size={17} />
             {item.label}
@@ -63,13 +63,13 @@ export function AccountNav() {
         type="button"
         onClick={handleLogout}
         disabled={loggingOut}
-        className="flex min-h-12 shrink-0 items-center gap-3 border-b-2 border-transparent px-4 text-left text-sm font-semibold whitespace-nowrap text-muted-foreground transition-colors hover:bg-muted/60 hover:text-primary disabled:cursor-wait disabled:opacity-60 lg:mt-2 lg:w-full lg:border-t lg:border-b-0 lg:border-border lg:pt-3"
+        className="mt-2 flex min-h-12 w-full items-center gap-3 border-t border-border px-4 pt-3 text-left text-sm font-semibold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-primary disabled:cursor-wait disabled:opacity-60"
       >
         <LogOut size={17} />
         {loggingOut ? "Đang đăng xuất…" : "Đăng xuất"}
       </button>
       {error ? (
-        <p role="alert" className="basis-full px-4 py-2 text-xs text-destructive">
+        <p role="alert" className="px-4 py-2 text-xs text-destructive">
           {error}
         </p>
       ) : null}
