@@ -292,6 +292,22 @@ Last updated: 2026-10-11
 - Next action:
   - Add the public catalogue data in an authorized development environment, then complete category-specific content/asset states and perform the deferred browser accessibility audit.
 
+### 2026-10-11 — Repair account text encoding at the API boundary
+
+- Status: Source complete; awaiting CI/browser verification.
+- Changes:
+  - Added an idempotent, server-only normalization step for recognizable UTF-8-as-Latin-1 mojibake in account responses.
+  - Applied normalization to session reads, login/register responses and profile updates so existing corrupted address values render correctly without mutating database rows during reads.
+  - Configured the backend source to force UTF-8 servlet encoding and utf8mb4 JDBC result/collation settings; marked `seedData.sql` as utf8mb4 for future authorized imports.
+- Validation:
+  - Source review and `git diff --check`: passed.
+  - Confirmed the targeted repair converts `HÃ  Ná»™i` to `Hà Nội` without a database write.
+  - No database mutation, seed execution, build, API call, browser check or deployment is performed under the current source-only instruction.
+- Remaining limitations:
+  - Existing malformed database values remain unchanged until a separately authorized data migration or re-seed; the frontend correction is a safe display-layer compatibility measure.
+- Next action:
+  - In an authorized development environment, verify a known affected profile and decide whether to run a one-off database data-repair migration after backup.
+
 ## Entry template
 
 Copy this section for future tasks:
