@@ -233,24 +233,19 @@ Last updated: 2026-10-11
 - Next action:
   - Review CI and code review results on PR #8 and PR #12; merge only after approval.
 
-### 2026-10-11 — Harden production authentication connectivity
+### 2026-10-11 — Revert production authentication connectivity changes
 
 - Status: Complete.
 - Changes:
-  - Kept authentication behind the same-origin Next.js BFF route, so browser requests continue to use `/api/auth/login` without exposing the backend URL.
-  - Added a configurable 10-second server-side backend timeout with explicit HTTP 502/504 errors instead of leaving login and registration requests hanging on an unavailable API.
-  - Added the production HTTPS backend URL and timeout to the PM2 ecosystem configuration.
-  - Updated the production workflow to reload PM2 with `API_BASE_URL` and `API_REQUEST_TIMEOUT_MS`, overridable through GitHub Actions repository variables.
-  - Moved the backend production datasource and mail credentials to injected environment variables and added an explicit connection timeout in the backend repository.
+  - Reverted the frontend API timeout, PM2 API environment and deployment workflow changes from the previous task.
+  - Reverted the backend production datasource/mail environment injection and deployment workflow changes from the previous task.
 - Validation:
-  - Confirmed the live frontend and backend processes respond, while authentication fails because MySQL denies the configured account access to `DB_AUCTION`.
-  - Frontend typecheck and targeted lint for the changed TypeScript file passed; `git diff --check` passed in both repositories.
-  - Full frontend lint remains blocked by the pre-existing `no-explicit-any` error in `components/profile/profile-form.tsx:118` and retains ten unrelated warnings.
-  - No build or deployment command was run locally.
+  - Reverts were applied as new Git commits so repository history remains intact.
+  - `git diff --check` passed in both repositories; no build, deployment, restart or VPS mutation was performed.
 - Remaining limitations:
-  - Production still requires a dedicated MySQL application user with privileges on `DB_AUCTION` and matching GitHub Actions secrets before the backend can authenticate users.
+  - Production authentication remains blocked by the existing MySQL permission error for `DB_AUCTION`.
 - Next action:
-  - Configure the database account and repository secrets, then let the existing CI/CD promotion deploy the reviewed source.
+  - Decide on the intended database credential and deployment configuration before implementing a replacement fix.
 
 ## Entry template
 

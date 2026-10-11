@@ -13,15 +13,11 @@ jobs:
     steps:
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@master
-        env:
-          API_BASE_URL: ${{ vars.API_BASE_URL || 'https://api.103.140.249.73.sslip.io' }}
-          API_REQUEST_TIMEOUT_MS: ${{ vars.API_REQUEST_TIMEOUT_MS || '10000' }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           password: ${{ secrets.VPS_PASSWORD }}
           port: ${{ secrets.VPS_PORT }}
-          envs: API_BASE_URL,API_REQUEST_TIMEOUT_MS
           script: |
             # Nạp môi trường để nhận diện lệnh npm và pm2 khi SSH (Non-interactive shell)
             export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/snap/bin
@@ -41,5 +37,5 @@ jobs:
             # 4. Build lại Next.js app cho môi trường production
             npm run build
             
-            # 5. Nạp cấu hình backend server-side và reload PM2 với môi trường mới
-            pm2 startOrReload ecosystem.config.cjs --update-env
+            # 5. Khởi động lại ứng dụng PM2 với tên vietauction-web
+            pm2 restart vietauction-web
