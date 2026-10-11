@@ -2,6 +2,8 @@ import "server-only"
 
 import type { User } from "@/types/user.type"
 
+import { normalizeUserText } from "@/lib/server/user-text"
+
 export const ACCESS_TOKEN_COOKIE = "va_access_token"
 export const REFRESH_TOKEN_COOKIE = "va_refresh_token"
 
@@ -102,12 +104,13 @@ export function readJwtUsername(token: string) {
   }
 }
 
-export function getUserByAccessToken(accessToken: string) {
+export async function getUserByAccessToken(accessToken: string) {
   const username = readJwtUsername(accessToken)
   if (!username) return null
 
-  return backendRequest<User>(
+  const user = await backendRequest<User>(
     `/api/v1/users/by-username/${encodeURIComponent(username)}`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   )
+  return normalizeUserText(user)
 }
