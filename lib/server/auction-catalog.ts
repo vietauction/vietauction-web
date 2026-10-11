@@ -65,18 +65,24 @@ const categoryFallbackImage: Record<AssetCategory, AuctionImage> = {
     alt: "Tài sản trang sức được trưng bày",
   },
   art: {
-    src: "/assets/landing/products/4.jpg",
-    alt: "Tác phẩm nghệ thuật được trưng bày",
+    src: "/assets/catalog/art-antique-bronze-buddha.png",
+    alt: "Tác phẩm nghệ thuật và đồ cổ được trưng bày",
   },
   "real-estate": {
-    src: "/assets/pages/about.webp",
-    alt: "Tài sản bất động sản",
+    src: "/assets/catalog/real-estate-riverside.png",
+    alt: "Bất động sản được công bố đấu giá",
   },
   vehicle: {
-    src: "/assets/landing/hero-poster.jpg",
+    src: "/assets/catalog/vehicle-luxury-suv.png",
     alt: "Phương tiện được công bố đấu giá",
   },
 }
+
+const legacyJewelryImagePaths = new Set([
+  "/assets/landing/products/1.jpg",
+  "/assets/landing/products/4.jpg",
+  "/assets/landing/products/5.jpg",
+])
 
 function numberValue(value: number | string | null | undefined) {
   const parsed = Number(value)
@@ -102,7 +108,16 @@ function toAuctionStatus(state: BackendAuctionState): AuctionStatus {
 function toImages(auction: BackendAuction, category: AssetCategory): AuctionImage[] {
   const urls = auction.product?.imageUrls?.filter((url) => url.startsWith("/")) ?? []
   const alt = auction.product?.name ?? auction.name
-  if (!urls.length) return [{ ...categoryFallbackImage[category], alt }]
+  const hasOnlyLegacyJewelryImages =
+    category !== "jewelry" &&
+    urls.length > 0 &&
+    urls.every((url) => legacyJewelryImagePaths.has(url))
+
+  // The initial seeded catalogue uses jewellery placeholders for every category.
+  // Preserve real backend images, but avoid presenting a ring as a vehicle or property.
+  if (!urls.length || hasOnlyLegacyJewelryImages) {
+    return [{ ...categoryFallbackImage[category], alt }]
+  }
 
   return urls.map((src, index) => ({
     src,

@@ -31,6 +31,26 @@ Last updated: 2026-10-11
 
 ## Task log
 
+### 2026-10-11 — Correct category imagery in the live catalogue fallback
+
+- Status: Source complete; awaiting CI delivery.
+- Changes:
+  - Performed a public desktop/mobile catalogue QA pass. The detail layout has no horizontal overflow at a 390px viewport and navigation, gallery controls, headings and skip navigation are exposed semantically.
+  - Found that the current seeded backend returns jewellery placeholder paths for vehicle, real-estate and art records, causing incorrect imagery on the public list and detail pages.
+  - Added high-resolution category fallback artwork for vehicle, real estate and art/antiques. The catalogue adapter now uses it only when a non-jewellery item has no image or has only the known legacy jewellery placeholder paths; valid backend image paths remain preferred.
+  - Higgsfield was unavailable in Chrome because the browser was offline, so the workspace image-generation fallback produced the three project-local assets.
+- Validation:
+  - Confirmed public list/detail rendering and the source mapping with read-only browser and HTTP checks.
+  - Confirmed mobile document and body width are both 390px, with no horizontal overflow.
+  - `npm run typecheck` and `git diff --check` passed.
+  - `npm run lint` remains blocked by two pre-existing errors outside this task: JSX in a `try/catch` in `app/auctions/page.tsx` and an explicit `any` in `components/profile/profile-form.tsx`. It also reports example-file warnings under `.agent/`.
+  - No build, deployment or backend/data mutation was performed.
+- Remaining limitations:
+  - This is a deliberate frontend safeguard. The durable fix is for the backend/catalogue data to provide the correct image URLs for every asset and gallery image.
+  - Visual revalidation of these new assets waits for CI delivery or an explicitly requested local preview.
+- Next action:
+  - Continue P1 by completing the detail dossier/gallery presentation, then carry out a full public keyboard and responsive browser QA pass.
+
 ### 2026-10-11 — Version remaining local font assets
 
 - Status: Complete.
