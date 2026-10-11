@@ -5,6 +5,8 @@ import type { User } from "@/types/user.type"
 export const ACCESS_TOKEN_COOKIE = "va_access_token"
 export const REFRESH_TOKEN_COOKIE = "va_refresh_token"
 
+const DEFAULT_BACKEND_TIMEOUT_MS = 10_000
+
 export type BackendEnvelope<T> = {
   success: boolean
   message?: string
@@ -37,15 +39,48 @@ function getBackendUrl() {
   return configuredUrl.replace(/\/$/, "")
 }
 
+function getBackendTimeout() {
+  const configuredTimeout = Number(process.env.API_REQUEST_TIMEOUT_MS)
+
+  return Number.isFinite(configuredTimeout) && configuredTimeout > 0
+    ? configuredTimeout
+    : DEFAULT_BACKEND_TIMEOUT_MS
+}
+
+function isTimeoutError(error: unknown) {
+  return (
+    error instanceof DOMException &&
+    (error.name === "AbortError" || error.name === "TimeoutError")
+  )
+}
+
 export async function backendRequest<T>(path: string, init?: RequestInit) {
-  const response = await fetch(`${getBackendUrl()}${path}`, {
-    ...init,
-    cache: "no-store",
-    headers: {
-      "Content-Type": "application/json",
-      ...init?.headers,
-    },
-  })
+  let response: Response
+
+  try {
+    response = await fetch(`${getBackendUrl()}${path}`, {
+      ...init,
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+        ...init?.headers,
+      },
+      signal: init?.signal ?? AbortSignal.timeout(getBackendTimeout()),
+    })
+  } catch (error) {
+    if (isTimeoutError(error)) {
+      throw new BackendRequestError(
+        "Dịch vụ API phản hồi quá lâu. Vui lòng thử lại sau.",
+        504
+      )
+    }
+
+    throw new BackendRequestError(
+      "Không thể kết nối tới dịch vụ API. Vui lòng thử lại sau.",
+      502
+    )
+  }
+
   const payload = (await response
     .json()
     .catch(() => null)) as BackendEnvelope<T> | null
