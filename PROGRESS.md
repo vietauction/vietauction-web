@@ -31,6 +31,19 @@ Last updated: 2026-10-11
 
 ## Task log
 
+### 2026-10-11 — Correct select-chevron visual inset
+
+- Status: Source complete; awaiting CI delivery.
+- Changes:
+  - Increased the actual right-side chevron inset from 8px to 28px and expanded the reserved text area for shared select controls, correcting the visual edge collision identified in browser review.
+- Validation:
+  - `git diff --check`, `npm run typecheck` and `npm run lint` pass with no errors or warnings.
+  - No build, deployment, backend mutation or environment change was performed.
+- Remaining limitations:
+  - Deployed visual confirmation waits for CI to deliver the `develop` branch.
+- Next action:
+  - Confirm the shared dropdown at desktop and mobile breakpoints after CI delivery.
+
 ### 2026-10-11 — Standardize select controls and seller progress feedback
 
 - Status: Source complete; awaiting CI delivery.
