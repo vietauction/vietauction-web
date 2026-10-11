@@ -31,6 +31,21 @@ Last updated: 2026-10-11
 
 ## Task log
 
+### 2026-10-11 — Refine the shared select chevron
+
+- Status: Source complete; awaiting CI delivery.
+- Changes:
+  - Replaced the filled CSS-gradient chevron with a 1.25px rounded SVG stroke so the select indicator returns to the intended lighter visual weight.
+  - Placed the visible icon 20px from the right edge and retained 56px of reserved field padding so label text never overlaps the control affordance.
+- Validation:
+  - Visual source review confirms the chevron is a single stroked path rather than two filled gradient triangles.
+  - `git diff --check`, `npm run typecheck` and `npm run lint` pass with no errors or warnings.
+  - No build, deployment, backend mutation or environment change was performed.
+- Remaining limitations:
+  - Deployed visual confirmation waits for CI to deliver the `develop` branch.
+- Next action:
+  - Confirm the shared dropdown at desktop and mobile breakpoints after CI delivery.
+
 ### 2026-10-11 — Correct select-chevron visual inset
 
 - Status: Source complete; awaiting CI delivery.
