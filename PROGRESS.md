@@ -31,6 +31,79 @@ Last updated: 2026-10-11
 
 ## Task log
 
+### 2026-10-11 — Restore and harden mobile account containment
+
+- Status: Source complete; awaiting CI delivery and authenticated browser QA.
+- Changes:
+  - Audited the reported mobile footer/content offset and found `develop` had reverted the earlier account responsiveness repair in commit `3b5f5c9`.
+  - Restored the missing `min-w-0` constraints across the account grid, sidebar and content column; added account-main horizontal containment as a defensive boundary.
+  - Restored a compact horizontal navigation rail on narrow screens and mobile transaction cards through the tablet breakpoint, eliminating the 650px table as a mobile layout dependency.
+  - Restored compact asset-status visibility on narrow cards without affecting desktop status placement.
+- Validation:
+  - Production protected routes correctly redirect to login without an authenticated browser session, so visual confirmation must use a legitimate authenticated session after CI delivery.
+  - `git diff --check`, `npm run typecheck` and `npm run lint` pass with no errors or warnings; local frontend root returns HTTP 200.
+- Remaining limitations:
+  - Record data remains UI-only/mock data until account endpoints are available.
+- Next action:
+  - After CI delivery, verify authenticated document width and footer alignment at 390px and 768px.
+
+### 2026-10-11 — Restore vertical account navigation on narrow screens
+
+- Status: Source complete; awaiting CI delivery and authenticated browser QA.
+- Changes:
+  - Replaced the narrow-screen horizontal account-navigation rail with the existing vertical card navigation pattern.
+  - Retained the selected-state treatment, iconography, mobile-safe width constraints and the record/table containment fixes; the account menu itself no longer needs horizontal scrolling.
+- Validation:
+  - `git diff --check`, `npm run typecheck` and `npm run lint` pass with no errors or warnings.
+- Remaining limitations:
+  - Authenticated visual confirmation at 390px and 768px waits for CI delivery.
+- Next action:
+  - Confirm the vertical navigation, record-card width and footer alignment in an authenticated mobile browser session.
+
+### 2026-10-11 — Refine the shared select chevron
+
+- Status: Source complete; awaiting CI delivery.
+- Changes:
+  - Replaced the filled CSS-gradient chevron with a 1.25px rounded SVG stroke so the select indicator returns to the intended lighter visual weight.
+  - Placed the visible icon 20px from the right edge and retained 56px of reserved field padding so label text never overlaps the control affordance.
+- Validation:
+  - Visual source review confirms the chevron is a single stroked path rather than two filled gradient triangles.
+  - `git diff --check`, `npm run typecheck` and `npm run lint` pass with no errors or warnings.
+  - No build, deployment, backend mutation or environment change was performed.
+- Remaining limitations:
+  - Deployed visual confirmation waits for CI to deliver the `develop` branch.
+- Next action:
+  - Confirm the shared dropdown at desktop and mobile breakpoints after CI delivery.
+
+### 2026-10-11 — Correct select-chevron visual inset
+
+- Status: Source complete; awaiting CI delivery.
+- Changes:
+  - Increased the actual right-side chevron inset from 8px to 28px and expanded the reserved text area for shared select controls, correcting the visual edge collision identified in browser review.
+- Validation:
+  - `git diff --check`, `npm run typecheck` and `npm run lint` pass with no errors or warnings.
+  - No build, deployment, backend mutation or environment change was performed.
+- Remaining limitations:
+  - Deployed visual confirmation waits for CI to deliver the `develop` branch.
+- Next action:
+  - Confirm the shared dropdown at desktop and mobile breakpoints after CI delivery.
+
+### 2026-10-11 — Standardize select controls and seller progress feedback
+
+- Status: Source complete; awaiting CI delivery.
+- Changes:
+  - Standardized every select using the shared `va-field` control: native arrows are replaced with a consistent ink chevron, a reserved right-side touch/click area and the same visible keyboard focus treatment as other fields.
+  - Brought the catalogue sort control into the same select treatment.
+  - Redesigned the four-step seller wizard as a connected horizontal progress indicator. Completed steps, the current step and pending steps now have distinct token-based states; the connector animates only between valid step changes and respects reduced-motion preferences.
+- Validation:
+  - Local browser semantics confirm the seller flow exposes a labelled progress list, four clearly named steps and an accessible category select.
+  - `git diff --check`, `npm run typecheck` and `npm run lint` pass with no errors or warnings.
+  - No build, deployment, backend mutation or environment change was performed.
+- Remaining limitations:
+  - Seller submission remains an explicitly local UI draft until its backend contract and upload APIs are available.
+- Next action:
+  - Verify the deployed controls at desktop and mobile widths after CI delivers `develop`, then continue the account and participation work that requires backend contracts.
+
 ### 2026-10-11 — Complete public discovery controls and clean the static baseline
 
 - Status: Source complete; awaiting CI delivery and catalogue-enabled local QA.
