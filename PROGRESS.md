@@ -15,8 +15,8 @@ Last updated: 2026-10-11
 
 | Phase                            | Status      | Completed                                                                                                                                                                                                                                                                                    | Remaining                                                                                                                                                                     |
 | -------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P0 — Foundation and shared shell | In progress | Canonical routes, shared header/footer, Gilroy typography, design tokens, button baseline, typed auction fixtures, not-found page, legacy redirects, server-only API client, auth BFF, HttpOnly session cookies and signed-in header                                                         | Repository adapters, shared form/state components, global loading/error/offline states and refresh-token rotation                                                             |
-| P1 — Public discovery            | In progress | Landing page, auction list, basic filters/sort/pagination, dynamic detail, About, Contact, legal pages                                                                                                                                                                                       | Advanced and category filters, removable chips, list loading/error states, detail lightbox, bid preview, sold/unsold/unavailable states, About FAQ and buyer/seller processes |
+| P0 — Foundation and shared shell | In progress | Canonical routes, shared header/footer, Gilroy typography, design tokens, button baseline, not-found page, legacy redirects, server-only API client, auth BFF, HttpOnly session cookies, signed-in header and public auction catalogue adapter | Shared form/state components, global loading/error/offline states and refresh-token rotation |
+| P1 — Public discovery            | In progress | Landing, auction list and dynamic detail consume the typed public catalogue API; list filters/sort/pagination use URL query state; About, Contact and legal pages | Advanced filters, removable chips, detail lightbox, bid preview, sold/unsold/unavailable states, About FAQ and buyer/seller processes |
 | P2 — Participation               | In progress | Registration form with three consents and mock payment method, live room with confirmation and accepted/rejected bids                                                                                                                                                                        | Eligibility states, already-registered/closed states, final registration confirmation, connecting/outbid/paused/ended live states, long bid history                           |
 | P3 — Authentication and account  | In progress | Backend-connected login/register/logout, email-or-username login, authenticated-route redirects, server-protected account routes, database-backed profile read/update, forgot/reset password UI, activation UI, shared account layout, security, auctions, transactions and submitted assets | Backend refresh/activation/password flows, invalid/expired token states, account loading/empty/error fixtures, search/filter/pagination, transaction and asset actions        |
 | P4 — Seller journey              | In progress | Four-step seller wizard, per-step validation, local draft, image preview, review and success                                                                                                                                                                                                 | Supporting documents, image reorder, manual cover selection, complete category fields, submission failure, object URL cleanup, richer asset-tracking actions                  |
@@ -246,6 +246,24 @@ Last updated: 2026-10-11
   - Production authentication remains blocked by the existing MySQL permission error for `DB_AUCTION`.
 - Next action:
   - Decide on the intended database credential and deployment configuration before implementing a replacement fix.
+
+### 2026-10-11 — Connect public discovery to the multi-asset catalogue API
+
+- Status: Source complete; awaiting CI verification and development seed application.
+- Changes:
+  - Added a server-only typed auction catalogue adapter that normalizes the Spring response, prices, states, pagination and category labels into the existing frontend model.
+  - Replaced mock reads on the landing page, `/auctions`, and `/auctions/[auctionId]` with the public API.
+  - Changed list filters to send server-backed keyword, category, state, sort and pagination query parameters.
+  - Added truthful API error and empty states; backend fields not yet provided, including registration fee, organizer, location and dossier documents, render as “Chưa công bố”.
+  - Added the paused auction status to the shared status badge.
+- Validation:
+  - `git diff --check` was run. Typecheck, lint, build, browser review, API execution, database seed execution and deployment were intentionally not run under the current source-only instruction.
+- Remaining limitations:
+  - The catalogue requires the updated backend source and development `seedData.sql` to be applied before local pages show data rather than the recoverable API state.
+  - Registration, payment and live bidding remain unavailable from API-backed detail pages because their backend contracts are not implemented.
+  - Dedicated art, real-estate and vehicle imagery and category-specific asset attributes remain outstanding.
+- Next action:
+  - Apply the development seed in an authorized environment, verify the public catalogue HTTP contract, then complete category-specific gallery assets and the read-only detail dossier.
 
 ## Entry template
 
