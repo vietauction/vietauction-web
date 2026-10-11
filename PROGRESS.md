@@ -233,6 +233,20 @@ Last updated: 2026-10-11
 - Next action:
   - Review CI and code review results on PR #8 and PR #12; merge only after approval.
 
+### 2026-10-11 — Revert production authentication connectivity changes
+
+- Status: Complete.
+- Changes:
+  - Reverted the frontend API timeout, PM2 API environment and deployment workflow changes from the previous task.
+  - Reverted the backend production datasource/mail environment injection and deployment workflow changes from the previous task.
+- Validation:
+  - Reverts were applied as new Git commits so repository history remains intact.
+  - `git diff --check` passed in both repositories; no build, deployment, restart or VPS mutation was performed.
+- Remaining limitations:
+  - Production authentication remains blocked by the existing MySQL permission error for `DB_AUCTION`.
+- Next action:
+  - Decide on the intended database credential and deployment configuration before implementing a replacement fix.
+
 ## Entry template
 
 Copy this section for future tasks:
