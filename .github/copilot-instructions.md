@@ -65,4 +65,4 @@ Before handoff:
 5. Inspect changed UI at desktop and mobile widths with keyboard/focus behavior where relevant.
 6. Update `PROGRESS.md` with changes, validation, limitations and the next action.
 7. Follow the CI/CD-only deployment rule in `AGENTS.md`; never infer permission to build, deploy, restart services or replace containers from permission to edit or push source.
-8. Start task branches from the latest `develop`, merge completed work back into `develop`, and create or update a `develop` → `master` pull request. Never code directly on `master` or merge the release pull request automatically.
+8. Start local-only task branches from the latest `develop`, merge completed work back into local `develop`, then push only `develop`. Never push `codex/*`, create a release pull request, code directly on `master`, or merge a release pull request unless the user explicitly asks.
