@@ -1,7 +1,6 @@
 "use client"
 
 import { Gavel, Star, Crown } from "lucide-react"
-import { cn } from "@/lib/utils"
 import type { UserProfile } from "./profile-types"
 
 interface AccountSummaryProps {
