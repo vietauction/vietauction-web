@@ -20,6 +20,10 @@ const statusConfig: Record<
     label: "Đã kết thúc",
     className: "bg-status-ended text-status-ended-foreground",
   },
+  paused: {
+    label: "Tạm dừng",
+    className: "bg-status-ended text-status-ended-foreground",
+  },
   cancelled: { label: "Đã hủy", className: "bg-destructive text-white" },
 }
 

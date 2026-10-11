@@ -9,7 +9,16 @@ export type BackendEnvelope<T> = {
   success: boolean
   message?: string
   data?: T
+  meta?: BackendPageMeta
   errors?: Array<{ field?: string; message?: string }>
+}
+
+export type BackendPageMeta = {
+  page: number
+  size: number
+  totalElements: number
+  totalPages: number
+  last: boolean
 }
 
 export type BackendAuthPayload = {
@@ -37,7 +46,10 @@ function getBackendUrl() {
   return configuredUrl.replace(/\/$/, "")
 }
 
-export async function backendRequest<T>(path: string, init?: RequestInit) {
+export async function backendRequestEnvelope<T>(
+  path: string,
+  init?: RequestInit
+): Promise<BackendEnvelope<T> & { data: T }> {
   const response = await fetch(`${getBackendUrl()}${path}`, {
     ...init,
     cache: "no-store",
@@ -63,6 +75,11 @@ export async function backendRequest<T>(path: string, init?: RequestInit) {
     )
   }
 
+  return payload as BackendEnvelope<T> & { data: T }
+}
+
+export async function backendRequest<T>(path: string, init?: RequestInit) {
+  const payload = await backendRequestEnvelope<T>(path, init)
   return payload.data
 }
 

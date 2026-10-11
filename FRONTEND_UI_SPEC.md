@@ -2,12 +2,12 @@
 
 | Field                  | Value                                                  |
 | ---------------------- | ------------------------------------------------------ |
-| Status                 | Implementation-ready for frontend UI with mock data    |
+| Status                 | Implementation-ready with selective public API integration |
 | Version                | 1.1                                                    |
 | Updated                | 2026-10-10                                             |
 | Visual source of truth | Landing page, `INSTRUCTIONS.md`, and `app/globals.css` |
 | Delivery tracker       | Google Sheet tab `UI-CHECKLIST`                        |
-| Backend status         | Explicitly out of scope for this phase                 |
+| Backend status         | Public catalogue and auth integrate incrementally when contracts are ready |
 
 When this document and an existing screen disagree, use this priority order:
 
@@ -37,7 +37,7 @@ The landing page and `INSTRUCTIONS.md` are the canonical visual references. This
 
 ### Excluded
 
-- Backend API integration.
+- Broad backend API integration beyond approved public catalogue and authentication slices.
 - WebSocket integration.
 - Real authentication, authorization, cookies, or session management.
 - Payment gateway integration.

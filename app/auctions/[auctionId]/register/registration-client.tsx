@@ -173,14 +173,18 @@ export function AuctionRegistrationClient({ auction }: { auction: Auction }) {
             <dl className="mt-6 space-y-4 border-y border-border py-5 text-sm">
               <div className="flex justify-between gap-4">
                 <dt className="text-muted-foreground">Phí đăng ký</dt>
-                <dd className="font-price font-numeric">
-                  {formatMoney(auction.registrationFee)}
+                <dd className={`font-numeric ${auction.registrationFee === undefined ? "text-muted-foreground" : "font-price"}`}>
+                  {auction.registrationFee === undefined
+                    ? "Chưa công bố"
+                    : formatMoney(auction.registrationFee)}
                 </dd>
               </div>
               <div className="flex justify-between gap-4">
                 <dt className="text-muted-foreground">Tiền đặt trước</dt>
-                <dd className="font-price font-numeric">
-                  {formatMoney(auction.depositAmount)}
+                <dd className={`font-numeric ${auction.depositAmount === undefined ? "text-muted-foreground" : "font-price"}`}>
+                  {auction.depositAmount === undefined
+                    ? "Chưa công bố"
+                    : formatMoney(auction.depositAmount)}
                 </dd>
               </div>
               <div className="flex justify-between gap-4">

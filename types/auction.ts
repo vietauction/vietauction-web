@@ -5,6 +5,7 @@ export type AuctionStatus =
   | "registration-open"
   | "live"
   | "ended"
+  | "paused"
   | "cancelled"
 
 export type AuctionImage = {
@@ -23,14 +24,14 @@ export type Auction = {
   startPrice: number
   currentPrice?: number
   bidStep: number
-  depositAmount: number
-  registrationFee: number
-  registrationOpenAt: string
-  registrationCloseAt: string
+  depositAmount?: number
+  registrationFee?: number
+  registrationOpenAt?: string
+  registrationCloseAt?: string
   startsAt: string
   endsAt: string
-  location: string
-  organizer: string
+  location?: string
+  organizer?: string
   bidCount: number
   verified: boolean
   summary: string
