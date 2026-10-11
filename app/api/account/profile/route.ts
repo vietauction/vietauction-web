@@ -6,7 +6,6 @@ import {
   backendRequest,
   getUserByAccessToken,
 } from "@/lib/server/backend-client"
-import { normalizeUserText } from "@/lib/server/user-text"
 import type { User, UserProfileUpdate } from "@/types/user.type"
 
 export async function PUT(request: Request) {
@@ -39,7 +38,7 @@ export async function PUT(request: Request) {
       body: JSON.stringify(profile),
     })
 
-    return NextResponse.json({ success: true, data: normalizeUserText(user) })
+    return NextResponse.json({ success: true, data: user })
   } catch {
     return NextResponse.json(
       { success: false, message: "Không thể cập nhật hồ sơ lúc này." },
