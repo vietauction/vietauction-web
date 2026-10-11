@@ -39,7 +39,32 @@ export default function TransactionsPage() {
         <p className="va-eyebrow">Lịch sử mô phỏng</p>
         <h2 className="va-heading-2 mt-3 text-3xl">Giao dịch</h2>
       </div>
-      <div className="mt-7 overflow-x-auto">
+      <div className="mt-7 space-y-3 md:hidden">
+        {transactions.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => setSelected(item)}
+            className="w-full border border-border bg-card p-4 text-left transition-colors hover:border-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="font-numeric text-xs text-muted-foreground">
+                  {item.id} · {item.date}
+                </p>
+                <p className="mt-2 font-semibold leading-6">{item.title}</p>
+              </div>
+              <span className="va-status shrink-0 bg-muted text-foreground">
+                {item.status}
+              </span>
+            </div>
+            <p className="font-price mt-4 font-numeric text-lg">
+              {formatMoney(item.amount)}
+            </p>
+          </button>
+        ))}
+      </div>
+      <div className="mt-7 hidden overflow-x-auto md:block">
         <table className="w-full min-w-[650px] text-left">
           <thead className="border-b border-border font-sans text-xs font-bold tracking-[0.06em] text-muted-foreground uppercase">
             <tr>

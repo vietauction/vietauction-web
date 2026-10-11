@@ -42,7 +42,7 @@ export function AccountNav() {
   }
 
   return (
-    <nav aria-label="Điều hướng tài khoản" className="va-card p-2">
+    <nav aria-label="Điều hướng tài khoản" className="va-card min-w-0 space-y-1 p-2">
       {items.map((item) => {
         const active =
           pathname === item.href || pathname.startsWith(`${item.href}/`)
@@ -52,7 +52,7 @@ export function AccountNav() {
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className={`flex min-h-12 items-center gap-3 border-l-2 px-4 text-sm font-semibold transition-colors ${active ? "border-secondary bg-muted text-primary" : "border-transparent text-muted-foreground hover:bg-muted/60 hover:text-primary"}`}
+            className={`flex min-h-12 w-full items-center gap-3 border-l-2 px-4 text-sm font-semibold transition-colors ${active ? "border-secondary bg-muted text-primary" : "border-transparent text-muted-foreground hover:bg-muted/60 hover:text-primary"}`}
           >
             <Icon size={17} />
             {item.label}
@@ -69,7 +69,7 @@ export function AccountNav() {
         {loggingOut ? "Đang đăng xuất…" : "Đăng xuất"}
       </button>
       {error ? (
-        <p role="alert" className="px-4 py-2 text-xs text-destructive">
+        <p role="alert" className="basis-full px-4 py-2 text-xs text-destructive">
           {error}
         </p>
       ) : null}

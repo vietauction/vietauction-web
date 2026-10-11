@@ -16,6 +16,7 @@ import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 
 const steps = ["Thông tin", "Đặc điểm", "Hình ảnh", "Xác nhận"]
+const progressWidth = ["w-0", "w-1/3", "w-2/3", "w-full"]
 
 type Draft = {
   title: string
@@ -166,24 +167,29 @@ export default function SellPage() {
               trên trình duyệt.
             </p>
           </div>
-          <ol
-            className="mt-10 grid grid-cols-4 gap-2"
-            aria-label="Tiến độ gửi tài sản"
-          >
-            {steps.map((label, index) => (
-              <li key={label} className="text-center">
+          <ol className="relative mt-10 grid grid-cols-4" aria-label="Tiến độ gửi tài sản">
+            <div aria-hidden="true" className="absolute top-5 right-[12.5%] left-[12.5%] h-px bg-border">
+              <div className={`h-full bg-secondary transition-[width] duration-500 ease-out motion-reduce:transition-none ${progressWidth[step]}`} />
+            </div>
+            {steps.map((label, index) => {
+              const isComplete = index < step
+              const isCurrent = index === step
+
+              return (
+              <li key={label} aria-current={isCurrent ? "step" : undefined} className="relative flex min-w-0 flex-col items-center text-center">
                 <span
-                  className={`mx-auto flex size-10 items-center justify-center border text-sm font-semibold ${index <= step ? "border-secondary bg-secondary text-secondary-foreground" : "border-border bg-card text-muted-foreground"}`}
+                  className={`flex size-10 items-center justify-center border text-sm font-semibold transition-[background-color,border-color,color,box-shadow,transform] duration-300 ease-out motion-reduce:transition-none ${isComplete ? "border-secondary bg-secondary text-secondary-foreground" : isCurrent ? "border-secondary bg-secondary text-secondary-foreground ring-4 ring-secondary/15" : "border-border bg-card text-muted-foreground"}`}
                 >
-                  {index < step ? <Check size={16} /> : index + 1}
+                  {isComplete ? <Check size={16} aria-hidden="true" /> : index + 1}
                 </span>
                 <span
-                  className={`mt-2 hidden text-xs font-semibold sm:block ${index <= step ? "text-primary" : "text-muted-foreground"}`}
+                  className={`mt-3 text-[11px] font-semibold leading-4 sm:text-sm ${index <= step ? "text-primary" : "text-muted-foreground"}`}
                 >
                   {label}
                 </span>
               </li>
-            ))}
+              )
+            })}
           </ol>
 
           <div className="mt-10 grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_300px]">
