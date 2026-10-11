@@ -264,6 +264,19 @@ html {
     @apply min-h-12 w-full border border-border bg-card px-4 py-3 text-base text-foreground placeholder:text-muted-foreground/80 focus-visible:border-secondary focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-secondary/35;
   }
 
+  .va-field:where(select),
+  .va-select {
+    @apply cursor-pointer appearance-none pr-14;
+    background-image:
+      linear-gradient(45deg, transparent 50%, currentColor 50%),
+      linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position:
+      calc(100% - 1.5rem) calc(50% - 0.125rem),
+      calc(100% - 1rem) calc(50% - 0.125rem);
+    background-repeat: no-repeat;
+    background-size: 0.5rem 0.5rem, 0.5rem 0.5rem;
+  }
+
   .va-status {
     @apply inline-flex min-h-7 items-center gap-1.5 px-2.5 py-1 font-sans text-xs font-bold tracking-[0.03em];
   }

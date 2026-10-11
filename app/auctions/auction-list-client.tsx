@@ -181,7 +181,7 @@ export function AuctionListClient({ auctions, categories, meta, error }: Catalog
               <label className="flex items-center gap-3 text-sm">
                 <SlidersHorizontal size={16} aria-hidden="true" />
                 <span className="sr-only sm:not-sr-only">Sắp xếp</span>
-                <select value={sort} onChange={(event) => updateParam("sort", event.target.value)} className="min-h-11 border border-border bg-card px-3">
+                <select value={sort} onChange={(event) => updateParam("sort", event.target.value)} className="va-select min-h-11 border border-border bg-card px-3 text-foreground focus-visible:border-secondary focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-secondary/35">
                   <option value="newest">Mới nhất</option>
                   <option value="ending-soon">Sắp kết thúc</option>
                   <option value="price-asc">Giá tăng dần</option>
