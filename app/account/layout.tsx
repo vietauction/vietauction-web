@@ -23,7 +23,7 @@ export default async function AccountLayout({
   return (
     <div className="va-page">
       <SiteHeader />
-      <main id="main-content" tabIndex={-1} className="va-container va-page-focus-target py-10 sm:py-14">
+      <main id="main-content" tabIndex={-1} className="va-container va-page-focus-target overflow-x-clip py-10 sm:py-14">
         <div className="mb-8">
           <p className="va-eyebrow">Khu vực thành viên</p>
           <h1 className="va-heading-1 mt-3">Tài khoản của bạn</h1>
@@ -31,11 +31,11 @@ export default async function AccountLayout({
             {`Quản lý thông tin cá nhân và hoạt động đấu giá của ${user.fullName}.`}
           </p>
         </div>
-        <div className="grid items-start gap-8 lg:grid-cols-[270px_minmax(0,1fr)]">
-          <aside className="lg:sticky lg:top-24">
+        <div className="grid min-w-0 items-start gap-8 lg:grid-cols-[270px_minmax(0,1fr)]">
+          <aside className="min-w-0 lg:sticky lg:top-24">
             <AccountNav />
           </aside>
-          <section>{children}</section>
+          <section className="min-w-0">{children}</section>
         </div>
       </main>
       <SiteFooter />

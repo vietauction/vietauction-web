@@ -31,6 +31,22 @@ Last updated: 2026-10-11
 
 ## Task log
 
+### 2026-10-11 — Restore and harden mobile account containment
+
+- Status: Source complete; awaiting CI delivery and authenticated browser QA.
+- Changes:
+  - Audited the reported mobile footer/content offset and found `develop` had reverted the earlier account responsiveness repair in commit `3b5f5c9`.
+  - Restored the missing `min-w-0` constraints across the account grid, sidebar and content column; added account-main horizontal containment as a defensive boundary.
+  - Restored a compact horizontal navigation rail on narrow screens and mobile transaction cards through the tablet breakpoint, eliminating the 650px table as a mobile layout dependency.
+  - Restored compact asset-status visibility on narrow cards without affecting desktop status placement.
+- Validation:
+  - Production protected routes correctly redirect to login without an authenticated browser session, so visual confirmation must use a legitimate authenticated session after CI delivery.
+  - `git diff --check`, `npm run typecheck` and `npm run lint` pass with no errors or warnings; local frontend root returns HTTP 200.
+- Remaining limitations:
+  - Record data remains UI-only/mock data until account endpoints are available.
+- Next action:
+  - After CI delivery, verify authenticated document width and footer alignment at 390px and 768px.
+
 ### 2026-10-11 — Refine the shared select chevron
 
 - Status: Source complete; awaiting CI delivery.

@@ -49,8 +49,11 @@ export default function AccountAssetsPage() {
               <p className="mt-1 font-numeric text-xs text-muted-foreground">
                 {asset.id} · Cập nhật {asset.updated}
               </p>
+              <span className="va-status mt-2 bg-muted text-foreground md:hidden">
+                {asset.status}
+              </span>
             </div>
-            <span className="va-status hidden bg-muted text-foreground sm:inline-flex">
+            <span className="va-status hidden shrink-0 bg-muted text-foreground md:inline-flex">
               {asset.status}
             </span>
             <ChevronRight size={18} />
