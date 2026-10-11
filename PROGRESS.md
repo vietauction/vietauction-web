@@ -6,10 +6,10 @@ Last updated: 2026-10-11
 
 ## Current verified state
 
-- Delivery: source changes are made on local-only `codex/*` branches, merged locally into `develop`, then only `develop` is pushed. Release PRs are created only on explicit request. The Vercel project was removed at the product owner's request; this repository does not currently have an authorized hosting/deployment target.
-- Catalogue: landing, `/auctions`, and `/auctions/[auctionId]` are wired to the typed public catalogue adapter. The active cloud `DB_AUCTION` development dataset was re-seeded as utf8mb4 with 12 multi-asset catalogue records; browser/API rendering verification remains pending.
-- User flows: login, registration, account profile and logout have frontend/API integration source. Password recovery, activation, seller submission, registration payment and live bidding still include UI-only or unavailable states until their backend contracts exist.
-- UI baseline: shared tokens, responsive shell, accessible state components, route loading/error states and core metadata are implemented in source. Automated validation and browser review for the latest source are pending because the current delivery instruction is source-only (no local build/deploy).
+- Delivery: source changes use local-only `codex/*` branches, are merged locally into `develop`, then only `develop` is pushed. A release PR is created or updated only on explicit request. The historical Vercel project is retired; the active public website is `https://website.vietauction.io.vn`.
+- Public catalogue: landing, `/auctions`, and `/auctions/[auctionId]` use the typed public catalogue adapter. On 2026-10-11, the public website, list and detail routes all returned HTTP 200 and server-rendered seeded multi-asset data from `https://api.vietauction.io.vn`. The API list, detail, and category endpoints returned valid data for jewellery, art/antiques, real estate, and vehicles.
+- User flows: login, registration, account profile and logout have BFF/API integration source. Browser authentication acceptance testing against the active HTTPS production backend remains outstanding. Password recovery, activation, change-password, seller submission, registration payment and live bidding still have UI-only or unavailable states because their backend contracts are incomplete.
+- UI baseline: shared tokens, responsive shell, accessible state components, route loading/error states and core metadata are in source. Production HTTP delivery and server-rendered catalogue data are verified; a visual browser, keyboard and automated regression pass remains outstanding.
 
 ## Status legend
 
@@ -22,14 +22,65 @@ Last updated: 2026-10-11
 
 | Phase                            | Status      | Completed                                                                                                                                                                                                                                                                                    | Remaining                                                                                                                                                                     |
 | -------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P0 — Foundation and shared shell | In progress | Canonical routes, shared header/footer, Gilroy tokens, button/form baseline, not-found, global and catalogue loading states, recoverable route error state, server-only API client, auth BFF and HttpOnly session cookies | Shared offline/retry policy, refresh-token rotation, latest source validation |
-| P1 — Public discovery            | In progress | Landing, list and dynamic detail consume the typed public catalogue API; list filters/sort/pagination use URL query state; About, Contact, legal metadata and responsive public shell | Advanced filters/chips, detail lightbox, bid preview, sold/unsold states, About FAQ and buyer/seller process content |
-| P2 — Participation               | In progress | Registration and live-room UI prototypes with explicit simulation/disabled states | Backend eligibility, registration, payment and live-bid contracts; closed/paused/outbid state data; durable bid history |
-| P3 — Authentication and account  | In progress | Login/register/logout/profile integration source, server-protected account routes, noindex account/auth metadata, shared account layout | Verified deployed API configuration, refresh/activation/password APIs, invalid-token account states, account list filters/actions |
-| P4 — Seller journey              | In progress | Responsive four-step local draft wizard, validation, image preview, review and success state | Submission API, documents, reorder/cover controls, category-specific fields, failure/retry flow, object URL cleanup |
+| P0 — Foundation and shared shell | In progress | Canonical routes, shared header/footer, Gilroy tokens, button/form baseline, not-found, global/catalogue loading states, recoverable route error state, server-only API client, auth BFF and HttpOnly session cookies | Shared offline/retry policy, refresh-token rotation, visual/browser regression validation |
+| P1 — Public discovery            | In progress | Landing, list and dynamic detail consume the live typed public catalogue API; list filters/sort/pagination use URL query state; About, Contact, legal metadata and responsive public shell | Advanced filters/chips, detail lightbox, bid preview, sold/unsold states, About FAQ and buyer/seller process content |
+| P2 — Participation               | Blocked     | Registration and live-room UI prototypes have explicit simulation/disabled states | Backend eligibility, registration, payment and live-bid contracts; closed/paused/outbid state data; durable bid history |
+| P3 — Authentication and account  | In progress | Login/register/logout/profile integration source, server-protected account routes, noindex account/auth metadata, shared account layout | Browser acceptance test against HTTPS API, refresh/activation/password APIs, invalid-token account states, account list filters/actions |
+| P4 — Seller journey              | Blocked     | Responsive four-step local draft wizard, validation, image preview, review and success state | Submission API, documents, reorder/cover controls, category-specific fields, failure/retry flow, object URL cleanup |
 | P5 — Assets and hardening        | In progress | Local page artwork, responsive breakpoints, focus/reduced-motion baseline, metadata/Open Graph defaults and accessibility state announcements | Category-specific production assets, full gallery/dossier content, accessibility/browser audit, Lighthouse and E2E coverage |
 
 ## Task log
+
+### 2026-10-11 — Correct category imagery in the live catalogue fallback
+
+- Status: Source complete; awaiting CI delivery.
+- Changes:
+  - Performed a public desktop/mobile catalogue QA pass. The detail layout has no horizontal overflow at a 390px viewport and navigation, gallery controls, headings and skip navigation are exposed semantically.
+  - Found that the current seeded backend returns jewellery placeholder paths for vehicle, real-estate and art records, causing incorrect imagery on the public list and detail pages.
+  - Added high-resolution category fallback artwork for vehicle, real estate and art/antiques. The catalogue adapter now uses it only when a non-jewellery item has no image or has only the known legacy jewellery placeholder paths; valid backend image paths remain preferred.
+  - Higgsfield was unavailable in Chrome because the browser was offline, so the workspace image-generation fallback produced the three project-local assets.
+- Validation:
+  - Confirmed public list/detail rendering and the source mapping with read-only browser and HTTP checks.
+  - Confirmed mobile document and body width are both 390px, with no horizontal overflow.
+  - `npm run typecheck` and `git diff --check` passed.
+  - `npm run lint` remains blocked by two pre-existing errors outside this task: JSX in a `try/catch` in `app/auctions/page.tsx` and an explicit `any` in `components/profile/profile-form.tsx`. It also reports example-file warnings under `.agent/`.
+  - No build, deployment or backend/data mutation was performed.
+- Remaining limitations:
+  - This is a deliberate frontend safeguard. The durable fix is for the backend/catalogue data to provide the correct image URLs for every asset and gallery image.
+  - Visual revalidation of these new assets waits for CI delivery or an explicitly requested local preview.
+- Next action:
+  - Continue P1 by completing the detail dossier/gallery presentation, then carry out a full public keyboard and responsive browser QA pass.
+
+### 2026-10-11 — Version remaining local font assets
+
+- Status: Complete.
+- Changes:
+  - Added the user-approved Platform (regular, bold and italic variants) and Product Sans (regular, bold and italic variants) font files under `app/fonts/`.
+  - Kept Gilroy as the active website typeface; no UI token, font registration or page typography changed in this asset-only task.
+- Validation:
+  - Confirmed all eight files are valid TrueType/OpenType font files before staging.
+  - No build, deployment or runtime font switch was performed.
+- Remaining limitations:
+  - These families are available for future approved use but are intentionally not loaded by the current design system.
+- Next action:
+  - Continue the public catalogue visual and accessibility QA described in the current work queue.
+
+### 2026-10-11 — Refresh verified website delivery progress
+
+- Status: Complete.
+- Changes:
+  - Reconciled the tracker against the current frontend source, public HTTPS website and public catalogue API rather than retaining source-only assumptions.
+  - Confirmed `https://website.vietauction.io.vn`, `/auctions`, and `/auctions/11` return HTTP 200; the public list and detail HTML include the seeded Porsche auction data.
+  - Confirmed `https://api.vietauction.io.vn/api/v1/auctions`, `/auctions/11`, and `/product-categories` return successful typed responses with all four supported asset categories.
+  - Marked participation and seller milestones `Blocked` because their backend contracts—not their UI layouts—are the current dependency.
+- Validation:
+  - Read-only production HTTP checks completed; no deployment, build, mutation, or authentication attempt was performed.
+  - Preserved the pre-existing untracked Platform/Product Sans font files; they are not part of this task.
+- Remaining limitations:
+  - Public visual, keyboard and mobile browser QA have not been rerun after the latest source changes.
+  - Account and participation flows need authenticated end-to-end verification and complete backend contracts.
+- Next action:
+  - Perform public catalogue browser QA across desktop/mobile, then implement the highest-value complete frontend vertical slice: detail dossier/gallery and category-specific presentation without changing backend contracts.
 
 ### 2026-10-10 — Configure mandatory progress tracking
 
