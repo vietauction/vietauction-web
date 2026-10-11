@@ -1,26 +1,57 @@
 import type { Metadata } from "next"
-import { Suspense } from "react"
 
 import { AuctionListClient } from "./auction-list-client"
+import { getAuctionCatalog, getAuctionCategories } from "@/lib/server/auction-catalog"
 
 export const metadata: Metadata = {
   title: "Tài sản đấu giá | VietAuction",
   description:
-    "Khám phá tài sản đang mở đăng ký, đang đấu giá và các phiên đã kết thúc trên VietAuction.",
+    "Khám phá tài sản đang chờ mở, đang đấu giá và các phiên đã kết thúc trên VietAuction.",
 }
 
-export default function AuctionsPage() {
-  return (
-    <Suspense
-      fallback={
-        <main className="va-page flex min-h-svh items-center justify-center">
-          <p className="font-sans text-sm text-muted-foreground">
-            Đang chuẩn bị danh sách tài sản…
-          </p>
-        </main>
-      }
-    >
-      <AuctionListClient />
-    </Suspense>
-  )
+type PageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
+
+function singleValue(value: string | string[] | undefined) {
+  return typeof value === "string" ? value : undefined
+}
+
+export default async function AuctionsPage({ searchParams }: PageProps) {
+  const query = await searchParams
+  const page = Number(singleValue(query.page)) || 1
+  const categoryId = Number(singleValue(query.categoryId)) || undefined
+  const state = singleValue(query.state)
+  const sort = singleValue(query.sort)
+
+  try {
+    const [catalogue, categories] = await Promise.all([
+      getAuctionCatalog({
+        page,
+        limit: 6,
+        keyword: singleValue(query.q),
+        categoryId,
+        state:
+          state === "WAITING" || state === "ONGOING" || state === "FINISHED" || state === "PAUSED"
+            ? state
+            : undefined,
+        sort:
+          sort === "ending-soon" || sort === "price-asc" || sort === "price-desc"
+            ? sort
+            : "newest",
+      }),
+      getAuctionCategories(),
+    ])
+
+    return <AuctionListClient auctions={catalogue.auctions} categories={categories} meta={catalogue.meta} />
+  } catch {
+    return (
+      <AuctionListClient
+        auctions={[]}
+        categories={[]}
+        meta={{ page: 1, totalElements: 0, totalPages: 0 }}
+        error="Dịch vụ catalogue đang tạm thời không phản hồi. Vui lòng thử lại sau."
+      />
+    )
+  }
 }

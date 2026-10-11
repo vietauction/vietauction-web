@@ -4,8 +4,9 @@ import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { AuctionCountdown } from "@/components/auction/auction-countdown"
 import { getAuctionStatusLabel } from "@/components/auction/auction-status-badge"
-import { featuredAuctions } from "@/data/mock-auctions"
 import { formatMoney } from "@/lib/format"
+import { getAuctionCatalog } from "@/lib/server/auction-catalog"
+import type { Auction } from "@/types/auction"
 
 const steps = [
   [
@@ -21,7 +22,14 @@ const steps = [
   ],
 ]
 
-export default function HomePage() {
+export default async function HomePage() {
+  let featuredAuctions: Auction[] = []
+  try {
+    featuredAuctions = (await getAuctionCatalog({ limit: 3 })).auctions
+  } catch {
+    featuredAuctions = []
+  }
+
   return (
     <>
       <main className="dgs-landing">
@@ -52,7 +60,7 @@ export default function HomePage() {
             <div className="dgs-hero__actions">
               <Link
                 className="dgs-button dgs-button--primary"
-                href="/auctions?status=live"
+                href="/auctions?state=ONGOING"
               >
                 Khám phá phiên đang diễn ra
               </Link>
@@ -91,8 +99,9 @@ export default function HomePage() {
               Xem tất cả phiên <span>→</span>
             </Link>
           </div>
-          <div className="dgs-auction-grid">
-            {featuredAuctions.map((auction, index) => (
+          {featuredAuctions.length ? (
+            <div className="dgs-auction-grid">
+              {featuredAuctions.map((auction, index) => (
               <article className="dgs-auction-card" key={auction.id}>
                 <Link
                   className="dgs-auction-card__image"
@@ -132,8 +141,15 @@ export default function HomePage() {
                   </div>
                 </div>
               </article>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="dgs-auction-grid">
+              <p className="dgs-hero__lede">
+                Catalogue đang được cập nhật. Vui lòng xem danh sách tài sản để thử lại.
+              </p>
+            </div>
+          )}
         </section>
 
         <section className="dgs-process" id="quy-trinh">
