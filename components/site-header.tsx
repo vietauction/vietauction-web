@@ -1,9 +1,12 @@
 "use client"
 
-import { Menu, X } from "lucide-react"
+import { CircleUserRound, Menu, X } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
+
+import { getSession } from "@/services/auth.api"
+import type { User } from "@/types/user.type"
 
 const navItems = [
   { href: "/", label: "Trang chủ" },
@@ -25,8 +28,24 @@ type SiteHeaderProps = {
 export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
   const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
   const closeMenu = () => setIsMenuOpen(false)
   const isOverlay = variant === "overlay"
+
+  useEffect(() => {
+    let active = true
+    getSession()
+      .then((sessionUser) => {
+        if (active) setUser(sessionUser)
+      })
+      .catch(() => {
+        if (active) setUser(null)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [pathname])
 
   useEffect(() => {
     if (!isMenuOpen) return
@@ -79,10 +98,16 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
 
         <div className="hidden items-center gap-1 sm:flex">
           <Link
-            href="/login"
+            href={user ? "/account/profile" : "/login"}
             className={`va-button px-4 ${isOverlay ? "text-white hover:text-accent" : "text-muted-foreground hover:text-primary"}`}
           >
-            Đăng nhập
+            {user ? (
+              <span className="inline-flex items-center gap-2">
+                <CircleUserRound size={17} aria-hidden="true" /> Tài khoản
+              </span>
+            ) : (
+              "Đăng nhập"
+            )}
           </Link>
           <Link href="/sell" className="va-button-secondary px-4">
             Gửi tài sản
@@ -133,11 +158,11 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
             })}
             <div className="mt-4 grid grid-cols-2 gap-3">
               <Link
-                href="/login"
+                href={user ? "/account/profile" : "/login"}
                 onClick={closeMenu}
                 className="va-button-outline px-3"
               >
-                Đăng nhập
+                {user ? "Tài khoản" : "Đăng nhập"}
               </Link>
               <Link
                 href="/sell"

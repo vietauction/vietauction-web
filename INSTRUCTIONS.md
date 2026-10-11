@@ -2,6 +2,15 @@
 
 This file is the mandatory design baseline for every existing and future VietAuction screen. The landing page is the canonical visual source. Preserve existing behavior unless a task explicitly changes it.
 
+## 0. Architecture enforcement
+
+- Approach every UI task as a Senior Fullstack Developer & Frontend Architect: validate the user journey, data contract, loading/error/empty states, accessibility and responsive behavior together.
+- Reuse semantic tokens from `app/globals.css`, `.va-*` primitives and `components/ui/` before introducing a new style or component.
+- Do not invent generic token names from external templates. VietAuction's actual paper/ink/gold tokens and component contracts are the source of truth.
+- Do not add raw HEX values, arbitrary pixel values or inline styles in feature code when an existing token or spacing step expresses the same intent. A new value must first be justified and promoted to a documented shared token.
+- Keep business and transport logic out of presentational components. Protected API traffic goes through same-origin Next.js Route Handlers; credentials and JWTs must never be stored in browser localStorage.
+- Every data-driven screen must deliberately handle default, loading, empty, validation/error, disabled and success states applicable to its flow.
+
 ## 1. Product principles
 
 - Make auction status, pricing, time remaining, and next actions easy to identify at a glance.
@@ -18,12 +27,12 @@ This file is the mandatory design baseline for every existing and future VietAuc
 
 ## 3. Typography
 
-| Content role | Required font and weight | Required implementation |
-| --- | --- | --- |
-| VietAuction wordmark and H1–H6 | `Gilroy Bold Việt hoá` (`700`) | Use semantic heading elements; the shared wordmark may use `.va-logo`. |
-| Body, navigation, buttons, controls, forms, helper text, and metadata | `Gilroy Medium Việt hoá` (`500`) | Inherit the global `font-sans`; do not declare a page-specific font family. |
-| Countdown, lot code, date, time, counter, and other non-price numeric data | `Gilroy Medium Việt hoá` (`500`) | Use `.font-numeric` when tabular-number alignment is useful; never use `.font-price`. |
-| Any monetary amount | `Gilroy SemiBold Việt hoá` (`600`) | Always apply `.font-price`; it may be combined with `.font-numeric`. |
+| Content role                                                               | Required font and weight           | Required implementation                                                               |
+| -------------------------------------------------------------------------- | ---------------------------------- | ------------------------------------------------------------------------------------- |
+| VietAuction wordmark and H1–H6                                             | `Gilroy Bold Việt hoá` (`700`)     | Use semantic heading elements; the shared wordmark may use `.va-logo`.                |
+| Body, navigation, buttons, controls, forms, helper text, and metadata      | `Gilroy Medium Việt hoá` (`500`)   | Inherit the global `font-sans`; do not declare a page-specific font family.           |
+| Countdown, lot code, date, time, counter, and other non-price numeric data | `Gilroy Medium Việt hoá` (`500`)   | Use `.font-numeric` when tabular-number alignment is useful; never use `.font-price`. |
+| Any monetary amount                                                        | `Gilroy SemiBold Việt hoá` (`600`) | Always apply `.font-price`; it may be combined with `.font-numeric`.                  |
 
 Typography implementation rules:
 
@@ -75,6 +84,6 @@ Typography implementation rules:
 
 - Use semantic landmarks: one `h1` per page, ordered headings, labelled navigation, and a footer when the page has site-wide navigation/contact details.
 - Test desktop, mobile, keyboard navigation, and both light/dark token contexts when applicable.
-- Before handoff, run typecheck, build, and lint. Treat new lint errors as blockers; document any retained warnings.
+- Before handoff, run typecheck and lint when permitted. Production builds are owned by CI/CD unless the user explicitly requests a local build; treat new validation errors as blockers and document retained warnings.
 - Visually inspect the hero, an information-heavy section, and the page ending after every landing-page change.
 - Inspect shared header/footer plus at least one dense functional screen whenever global tokens change.
