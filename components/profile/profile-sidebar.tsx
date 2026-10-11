@@ -17,27 +17,30 @@ interface ProfileSidebarProps {
 }
 
 const SIDEBAR_NAV = [
-  { id: "dashboard", label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { id: "profile", label: "Profile Settings", href: "/profile", icon: User },
-  { id: "history", label: "Auction History", href: "/history", icon: History },
-  { id: "consignment", label: "Consignment", href: "/consignment", icon: Archive },
-  { id: "security", label: "Security", href: "/security", icon: ShieldCheck },
+  { id: "dashboard", label: "Tổng quan", href: "/account", icon: LayoutDashboard },
+  { id: "profile", label: "Hồ sơ", href: "/account/profile", icon: User },
+  { id: "history", label: "Phiên của tôi", href: "/account/auctions", icon: History },
+  { id: "consignment", label: "Tài sản đã gửi", href: "/account/assets", icon: Archive },
+  { id: "security", label: "Bảo mật", href: "/account/security", icon: ShieldCheck },
 ]
 
 export function ProfileSidebar({ user }: ProfileSidebarProps) {
   const pathname = usePathname()
-  // Mock current path fallback for visual demo
-  const currentPath = pathname === "/" ? "/profile" : pathname
+  const currentPath = pathname === "/" ? "/account" : pathname
+  const initials = user.fullName
+    .split(" ")
+    .filter(Boolean)
+    .slice(-2)
+    .map((part) => part[0])
+    .join("")
 
   return (
     <aside className="flex flex-col h-full h-[calc(100vh-80px)] lg:sticky lg:top-[80px]">
       {/* ─── Top Identity Card (THE exactly one avatar) ──────────── */}
       <div className="mb-8 px-4 flex items-center gap-3">
-        <img
-          src={user.avatarUrl}
-          alt={`Avatar of ${user.fullName}`}
-          className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-emerald-500/20"
-        />
+        <div aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary/15 text-xs font-bold text-secondary ring-2 ring-secondary/20">
+          {initials}
+        </div>
         <div className="flex min-w-0 flex-col">
           <h2 className="truncate font-heading text-sm font-bold text-primary">
             {user.fullName}

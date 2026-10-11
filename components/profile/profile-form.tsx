@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Lock, Save } from "lucide-react"
+import { Lock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { UserProfile, ProfileFormValues } from "./profile-types"
 import { LANGUAGE_OPTIONS } from "./mock-profile-data"
@@ -9,6 +9,8 @@ import { LANGUAGE_OPTIONS } from "./mock-profile-data"
 interface ProfileFormProps {
   readonly user: UserProfile
 }
+
+type PreferredLanguage = ProfileFormValues["preferredLanguage"]
 
 // ─── Atom: Styled Input ───────────────────────────────────────────────────────
 const inputClass = cn(
@@ -115,7 +117,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
           </label>
           <select
             value={formValues.preferredLanguage}
-            onChange={(e) => handleChange("preferredLanguage", e.target.value as any)}
+            onChange={(e) => handleChange("preferredLanguage", e.target.value as PreferredLanguage)}
             className={cn(inputClass, "appearance-none")}
           >
             {LANGUAGE_OPTIONS.map((opt) => (
