@@ -47,6 +47,19 @@ Last updated: 2026-10-11
 - Next action:
   - After CI delivery, verify authenticated document width and footer alignment at 390px and 768px.
 
+### 2026-10-11 — Restore vertical account navigation on narrow screens
+
+- Status: Source complete; awaiting CI delivery and authenticated browser QA.
+- Changes:
+  - Replaced the narrow-screen horizontal account-navigation rail with the existing vertical card navigation pattern.
+  - Retained the selected-state treatment, iconography, mobile-safe width constraints and the record/table containment fixes; the account menu itself no longer needs horizontal scrolling.
+- Validation:
+  - `git diff --check`, `npm run typecheck` and `npm run lint` pass with no errors or warnings.
+- Remaining limitations:
+  - Authenticated visual confirmation at 390px and 768px waits for CI delivery.
+- Next action:
+  - Confirm the vertical navigation, record-card width and footer alignment in an authenticated mobile browser session.
+
 ### 2026-10-11 — Refine the shared select chevron
 
 - Status: Source complete; awaiting CI delivery.
