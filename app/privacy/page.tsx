@@ -1,4 +1,11 @@
 import { LegalPage } from "@/components/common/legal-page"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Chính sách bảo mật",
+  description: "Thông tin về cách VietAuction dự kiến bảo vệ dữ liệu người dùng.",
+  alternates: { canonical: "/privacy" },
+}
 
 export default function PrivacyPage() {
   return (

@@ -133,6 +133,9 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
       {isMenuOpen ? (
         <div
           id="mobile-navigation"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Điều hướng di động"
           className="border-t border-border bg-background px-5 py-4 text-foreground shadow-xl md:hidden"
         >
           <nav

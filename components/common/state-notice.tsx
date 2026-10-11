@@ -17,7 +17,11 @@ export function StateNotice({
   const Icon =
     kind === "error" ? AlertCircle : kind === "permission" ? ShieldAlert : Inbox
   return (
-    <div className="va-card flex min-h-72 flex-col items-center justify-center px-6 py-12 text-center">
+    <div
+      className="va-card flex min-h-72 flex-col items-center justify-center px-6 py-12 text-center"
+      role={kind === "error" ? "alert" : "status"}
+      aria-live={kind === "error" ? "assertive" : "polite"}
+    >
       <span className="mb-5 inline-flex size-12 items-center justify-center border border-border bg-muted text-secondary">
         <Icon size={22} aria-hidden="true" />
       </span>

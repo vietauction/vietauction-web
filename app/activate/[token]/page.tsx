@@ -3,7 +3,7 @@ import { Check } from "lucide-react"
 
 export default function ActivatePage() {
   return (
-    <main className="flex min-h-svh items-center justify-center bg-background p-6">
+    <main id="main-content" tabIndex={-1} className="va-page-focus-target flex min-h-svh items-center justify-center bg-background p-6">
       <section className="va-card max-w-xl p-9 text-center">
         <span className="mx-auto flex size-14 items-center justify-center bg-status-verified text-white">
           <Check />
