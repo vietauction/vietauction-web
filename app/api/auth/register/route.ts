@@ -6,6 +6,7 @@ import {
   BackendRequestError,
   type BackendAuthPayload,
 } from "@/lib/server/backend-client"
+import { normalizeUserText } from "@/lib/server/user-text"
 
 export async function POST(request: Request) {
   const registration = await request.json().catch(() => null)
@@ -24,7 +25,10 @@ export async function POST(request: Request) {
         body: JSON.stringify(registration),
       }
     )
-    const response = NextResponse.json({ success: true, data: auth.user })
+    const response = NextResponse.json({
+      success: true,
+      data: normalizeUserText(auth.user),
+    })
     setAuthCookies(response, auth)
     return response
   } catch (error) {
