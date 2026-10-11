@@ -1,34 +1,19 @@
-import axios from "axios";
-import { useAuthStore } from "@/stores/auth.store";
+import axios from "axios"
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-});
+  baseURL: "/api",
+  withCredentials: true,
+})
 
-// REQUEST interceptor
-api.interceptors.request.use((config) => {
-  const token = useAuthStore.getState().accessToken;
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-});
-
-// RESPONSE interceptor (handle 401)
 api.interceptors.response.use(
-  (res) => res,
-  async (error) => {
-    const originalRequest = error.config;
-
-    if (error.response?.status === 401) {
-      // logout luôn (basic)
-      useAuthStore.getState().clearState();
-
-      window.location.href = "/login";
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401 && typeof window !== "undefined") {
+      window.location.assign("/login")
     }
-  }
-);
 
-export default api;
+    return Promise.reject(error)
+  }
+)
+
+export default api

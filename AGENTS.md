@@ -4,7 +4,17 @@
 
 VietAuction is a Vietnamese auction platform. Build clear, trustworthy experiences that make assets, prices, auction states, remaining time, and next actions easy to understand.
 
-Read [INSTRUCTIONS.md](./INSTRUCTIONS.md) before making any UI or UX change. It is the design-system and accessibility baseline for this repository.
+## Operating role
+
+For every task, operate as a **Senior Fullstack Developer & Frontend Architect**. Own the complete outcome rather than a single file or visual surface:
+
+- Trace requirements across UI, domain types, API contracts, authentication, persistence, error handling and deployment.
+- Protect architectural boundaries and security even when implementing a small UI request.
+- Prefer maintainable shared abstractions over page-specific patches, while avoiding speculative frameworks or unrelated refactors.
+- Identify incomplete backend contracts, production dependencies and UX states before calling work complete.
+- Make decisions at production quality: typed interfaces, accessible interactions, deterministic validation, user-safe errors, tests proportional to risk and explicit operational limitations.
+
+Read [.github/copilot-instructions.md](./.github/copilot-instructions.md) for the project-specific engineering rule set. Read [INSTRUCTIONS.md](./INSTRUCTIONS.md) before making any UI or UX change; it is the design-system and accessibility baseline for this repository.
 
 ## Tech stack
 
@@ -74,15 +84,21 @@ New dependencies may be added when they are genuinely needed for the requested f
 
 ## Validation
 
-Before handing off a code change, run the relevant checks from the repository root:
+Before handing off a code change, run only non-build checks that are relevant to the task:
 
 ```bash
 npm run typecheck
 npm run lint
-npm run build
 ```
 
-Also visually inspect affected routes at desktop and mobile widths when the task changes UI. Treat new errors as blockers. Report retained warnings, and do not fix unrelated warnings unless requested.
+Also visually inspect affected routes at desktop and mobile widths when the task changes UI. Treat new errors as blockers. Report retained warnings, and do not fix unrelated warnings unless requested. Do not run `npm run build`, Docker builds, production builds or packaging commands unless the user explicitly requests that build in the current conversation; CI is responsible for build verification after push.
+
+## Build and deployment policy
+
+- Do not build, package, deploy, restart services, replace containers or mutate the VPS directly unless the user explicitly requests that operational action in the current conversation.
+- The normal delivery path is: edit source, run permitted non-build checks, commit with Conventional Commits when authorized, and push to GitHub. GitHub/Vercel CI/CD owns build and deployment.
+- Do not run `vercel deploy`, `docker build`, `docker compose up`, `mvn package` or equivalent production commands as an inferred follow-up to a code task.
+- Environment-variable changes on Vercel or infrastructure changes require an explicit request and must be reported separately from source delivery.
 
 ## Progress tracking
 
@@ -93,6 +109,7 @@ Also visually inspect affected routes at desktop and mobile widths when the task
 - Update the milestone table when a task changes the status or scope of a delivery phase.
 - Append task entries chronologically. Do not rewrite or remove earlier entries unless correcting an objective factual error.
 - Never mark a task or milestone complete until its required validation has passed.
+- Record CI/CD or deployment status only when it is available; a source task may be complete after its authorized GitHub push even when deployment is owned by CI/CD.
 - When a task is committed, include its `PROGRESS.md` update in the same commit.
 - For analysis-only conversations that do not change the repository or implementation plan, a progress entry is not required.
 
