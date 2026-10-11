@@ -31,6 +31,20 @@ Last updated: 2026-10-11
 
 ## Task log
 
+### 2026-10-11 — Version remaining local font assets
+
+- Status: Complete.
+- Changes:
+  - Added the user-approved Platform (regular, bold and italic variants) and Product Sans (regular, bold and italic variants) font files under `app/fonts/`.
+  - Kept Gilroy as the active website typeface; no UI token, font registration or page typography changed in this asset-only task.
+- Validation:
+  - Confirmed all eight files are valid TrueType/OpenType font files before staging.
+  - No build, deployment or runtime font switch was performed.
+- Remaining limitations:
+  - These families are available for future approved use but are intentionally not loaded by the current design system.
+- Next action:
+  - Continue the public catalogue visual and accessibility QA described in the current work queue.
+
 ### 2026-10-11 — Refresh verified website delivery progress
 
 - Status: Complete.
